@@ -1,0 +1,34 @@
+body {
+    background-color: #eeeeee;
+}
+
+.navbar-default {
+    padding: 15px;
+}
+
+.navbar-inverse-aluno{
+    background-color: #8ce327;
+    border-color: transparent;
+}
+
+.navbar-inverse-professor{
+    background-color: #2774e3;
+    border-color: transparent;
+}
+
+
+.navbar-brand {
+    padding: 0px;
+}
+
+.navbar-brand>img {
+    height: 170%;
+    padding: 15px;
+    width: auto;
+    position: relative;
+    top: -15px;
+}
+
+.tamanhoBt-alunoProfessor{
+    width: 50%
+}

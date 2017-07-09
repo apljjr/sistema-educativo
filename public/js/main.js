@@ -27,17 +27,17 @@ module.exports = function($routeProvider){
         controller:"AlunoController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Aluno",navClass:"navbar-inverse"};
+                return {routeName:"Aluno",navClass:"navbar-inverse-aluno"};
             }
         }
     });
 
-    $routeProvider.when("/client/:id",{
+    $routeProvider.when("/professor",{
         templateUrl:"view/professor.html",
-        controller:"ClientController",
+        controller:"ProfessorController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Professor",navClass:"navbar-inverse"};
+                return {routeName:"Professor",navClass:"navbar-inverse-professor"};
             }
         }
     });
@@ -85,62 +85,62 @@ module.exports = function($scope,$http,$filter,clientAPIService,clientTestServic
         //bonus += Math.floor(Math.random()*10);
     //}
 
-    $scope.bonus = 'Cod.Bonus: ' + bonusGenerator.generator();
+    // $scope.bonus = 'Cod.Bonus: ' + bonusGenerator.generator();
 
 
-    var listClients = function(){
-        clientAPIService.getClients().success(function(data,status){
-            //console.log(data);
-            //console.log(status);
-            $scope.clients = data;
-        });
-    };
-    var addClients = function(client){
-        clientTestService.saveClients(client).success(function(data,status){
-            //console.log(data);
-            //console.log(status);
-            listClients();
-        });
-    };
-    var destroyClients = function(client){
-        client.delete = true;
-        clientAPIService.saveClients(client).success(function(data,status){
-            //console.log(data);
-            //console.log(status);
-        });
-    };
+    // var listClients = function(){
+    //     clientAPIService.getClients().success(function(data,status){
+    //         //console.log(data);
+    //         //console.log(status);
+    //         $scope.clients = data;
+    //     });
+    // };
+    // var addClients = function(client){
+    //     clientTestService.saveClients(client).success(function(data,status){
+    //         //console.log(data);
+    //         //console.log(status);
+    //         listClients();
+    //     });
+    // };
+    // var destroyClients = function(client){
+    //     client.delete = true;
+    //     clientAPIService.saveClients(client).success(function(data,status){
+    //         //console.log(data);
+    //         //console.log(status);
+    //     });
+    // };
 
-    listClients();
+    // listClients();
 
-    $scope.add = function(client){
-        addClients(angular.copy(client));
-        $scope.formClient.$setPristine();
-        delete $scope.client;
-        $scope.msg = "Successfully added record";
+    // $scope.add = function(client){
+    //     addClients(angular.copy(client));
+    //     $scope.formClient.$setPristine();
+    //     delete $scope.client;
+    //     $scope.msg = "Successfully added record";
 
-    };
-    $scope.edit = function(client){
-        $scope.client = client;
-        $scope.editing = true;
-        $scope.msg = "";
-    };
-    $scope.save = function() {
-        addClients(angular.copy($scope.client));
-        $scope.formClient.$setPristine();
-        delete $scope.client;
-        $scope.editing = false;
-        $scope.msg = "Successfully edited record";
-    };
-    $scope.destroy = function(client) {
-        $scope.clients.splice($scope.clients.indexOf(client),1);
-        destroyClients(client);
-        $scope.msg = "Successfully deleted record";
+    // };
+    // $scope.edit = function(client){
+    //     $scope.client = client;
+    //     $scope.editing = true;
+    //     $scope.msg = "";
+    // };
+    // $scope.save = function() {
+    //     addClients(angular.copy($scope.client));
+    //     $scope.formClient.$setPristine();
+    //     delete $scope.client;
+    //     $scope.editing = false;
+    //     $scope.msg = "Successfully edited record";
+    // };
+    // $scope.destroy = function(client) {
+    //     $scope.clients.splice($scope.clients.indexOf(client),1);
+    //     destroyClients(client);
+    //     $scope.msg = "Successfully deleted record";
 
-    };
-    $scope.orderBy = function(col){
-        $scope.order = col;
-        $scope.reverse = !$scope.reverse;
-    };
+    // };
+    // $scope.orderBy = function(col){
+    //     $scope.order = col;
+    //     $scope.reverse = !$scope.reverse;
+    // };
 };
 },{}],8:[function(require,module,exports){
 module.exports = function(){

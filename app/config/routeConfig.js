@@ -13,17 +13,17 @@ module.exports = function($routeProvider){
         controller:"AlunoController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Aluno",navClass:"navbar-inverse"};
+                return {routeName:"Aluno",navClass:"navbar-inverse-aluno"};
             }
         }
     });
 
-    $routeProvider.when("/client/:id",{
+    $routeProvider.when("/professor",{
         templateUrl:"view/professor.html",
-        controller:"ClientController",
+        controller:"ProfessorController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Professor",navClass:"navbar-inverse"};
+                return {routeName:"Professor",navClass:"navbar-inverse-professor"};
             }
         }
     });
