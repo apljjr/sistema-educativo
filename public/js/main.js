@@ -22,22 +22,22 @@ module.exports = function($routeProvider){
             }
         }
     });
-    $routeProvider.when("/clients",{
-        templateUrl:"view/clients.html",
-        controller:"ClientsController",
+    $routeProvider.when("/aluno",{
+        templateUrl:"view/aluno.html",
+        controller:"AlunoController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Clients List",navClass:"navbar-inverse"};
+                return {routeName:"Aluno",navClass:"navbar-inverse"};
             }
         }
     });
 
     $routeProvider.when("/client/:id",{
-        templateUrl:"view/client.html",
+        templateUrl:"view/professor.html",
         controller:"ClientController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Client",navClass:"navbar-inverse"};
+                return {routeName:"Professor",navClass:"navbar-inverse"};
             }
         }
     });
@@ -51,18 +51,28 @@ module.exports = function($scope,$filter,clientAPIService,configValue,routeInfo,
     $scope.page = routeInfo.routeName;
     $scope.navClass = routeInfo.navClass;
 
-    var listClient = function(){
-        clientAPIService.getClient($routeParams.id).success(function(data,status){
-            //console.log(data);
-            //console.log(status);
-            $scope.client = data;
-        });
-    };
+    // var listClient = function(){
+    //     clientAPIService.getClient($routeParams.id).success(function(data,status){
+    //         //console.log(data);
+    //         //console.log(status);
+    //         $scope.client = data;
+    //     });
+    // };
 
-    listClient();
+    // listClient();
 
 };
 },{}],6:[function(require,module,exports){
+module.exports = function($scope,$filter,configValue,routeInfo){
+    $scope.name = $filter("uppercase")(configValue.appName);
+    $scope.msg = "";
+    $scope.clients = [];
+    $scope.page = routeInfo.routeName;
+    $scope.navClass = routeInfo.navClass;
+
+
+};
+},{}],7:[function(require,module,exports){
 module.exports = function($scope,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
     $scope.name = $filter("uppercase")(configValue.appName);
     $scope.msg = "";
@@ -132,16 +142,6 @@ module.exports = function($scope,$http,$filter,clientAPIService,clientTestServic
         $scope.reverse = !$scope.reverse;
     };
 };
-},{}],7:[function(require,module,exports){
-module.exports = function($scope,$filter,configValue,routeInfo){
-    $scope.name = $filter("uppercase")(configValue.appName);
-    $scope.msg = "";
-    $scope.clients = [];
-    $scope.page = routeInfo.routeName;
-    $scope.navClass = routeInfo.navClass;
-
-
-};
 },{}],8:[function(require,module,exports){
 module.exports = function(){
     return {
@@ -204,8 +204,8 @@ var bonusGenerator = require('./services/bonusGenerator');
 var clientAPIService = require('./services/clientAPIService');
 var clientTestService = require('./services/clientTestService');
 var MainController = require('./controllers/MainController');
-var ClientsController = require('./controllers/ClientsController');
-var ClientController = require('./controllers/ClientController');
+var ProfessorController = require('./controllers/ProfessorController');
+var AlunoController = require('./controllers/AlunoController');
 var maskTel = require('./directives/maskTel');
 var alertMsg = require('./directives/alertMsg');
 
@@ -222,9 +222,9 @@ angular.module('app').service('clientTestService',['$http','configValue',clientT
 angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
 angular.module('app').controller('MainController',['$scope','$filter','configValue','routeInfo',MainController]);
-angular.module('app').controller('ClientsController',['$scope','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ClientsController]);
-angular.module('app').controller('ClientController',['$scope','$filter','clientAPIService','configValue','routeInfo','$routeParams',ClientController]);
-},{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/ClientController":5,"./controllers/ClientsController":6,"./controllers/MainController":7,"./directives/alertMsg":8,"./directives/maskTel":9,"./locale/angular-locale_pt-br":11,"./services/bonusGenerator":12,"./services/clientAPIService":13,"./services/clientTestService":14,"angular":18,"angular-route":16}],11:[function(require,module,exports){
+angular.module('app').controller('ProfessorController',['$scope','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
+angular.module('app').controller('AlunoController',['$scope','$filter','clientAPIService','configValue','routeInfo','$routeParams',AlunoController]);
+},{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/AlunoController":5,"./controllers/MainController":6,"./controllers/ProfessorController":7,"./directives/alertMsg":8,"./directives/maskTel":9,"./locale/angular-locale_pt-br":11,"./services/bonusGenerator":12,"./services/clientAPIService":13,"./services/clientTestService":14,"angular":18,"angular-route":16}],11:[function(require,module,exports){
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};

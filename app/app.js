@@ -10,8 +10,8 @@ var bonusGenerator = require('./services/bonusGenerator');
 var clientAPIService = require('./services/clientAPIService');
 var clientTestService = require('./services/clientTestService');
 var MainController = require('./controllers/MainController');
-var ClientsController = require('./controllers/ClientsController');
-var ClientController = require('./controllers/ClientController');
+var ProfessorController = require('./controllers/ProfessorController');
+var AlunoController = require('./controllers/AlunoController');
 var maskTel = require('./directives/maskTel');
 var alertMsg = require('./directives/alertMsg');
 
@@ -28,5 +28,5 @@ angular.module('app').service('clientTestService',['$http','configValue',clientT
 angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
 angular.module('app').controller('MainController',['$scope','$filter','configValue','routeInfo',MainController]);
-angular.module('app').controller('ClientsController',['$scope','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ClientsController]);
-angular.module('app').controller('ClientController',['$scope','$filter','clientAPIService','configValue','routeInfo','$routeParams',ClientController]);
+angular.module('app').controller('ProfessorController',['$scope','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
+angular.module('app').controller('AlunoController',['$scope','$filter','clientAPIService','configValue','routeInfo','$routeParams',AlunoController]);

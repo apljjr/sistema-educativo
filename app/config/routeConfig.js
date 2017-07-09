@@ -8,22 +8,22 @@ module.exports = function($routeProvider){
             }
         }
     });
-    $routeProvider.when("/clients",{
-        templateUrl:"view/clients.html",
-        controller:"ClientsController",
+    $routeProvider.when("/aluno",{
+        templateUrl:"view/aluno.html",
+        controller:"AlunoController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Clients List",navClass:"navbar-inverse"};
+                return {routeName:"Aluno",navClass:"navbar-inverse"};
             }
         }
     });
 
     $routeProvider.when("/client/:id",{
-        templateUrl:"view/client.html",
+        templateUrl:"view/professor.html",
         controller:"ClientController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Client",navClass:"navbar-inverse"};
+                return {routeName:"Professor",navClass:"navbar-inverse"};
             }
         }
     });
