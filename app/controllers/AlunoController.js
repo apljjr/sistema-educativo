@@ -1,9 +1,16 @@
-module.exports = function($scope,$filter,clientAPIService,configValue,routeInfo,$routeParams){
-    $scope.name = $filter("uppercase")(configValue.appName);
-    $scope.msg = "";
-    $scope.clients = [];
-    $scope.page = routeInfo.routeName;
-    $scope.navClass = routeInfo.navClass;
+module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams){
+    
+    var vm = $scope;
+    $rootScope.navActive = true;
+    
+    vm.name = $filter("uppercase")(configValue.appName);
+    vm.msg = "";
+    vm.clients = [];
+    vm.page = routeInfo.routeName;
+    vm.navClass = routeInfo.navClass;
+
+    $rootScope.navActive = true;
+
 
     // var listClient = function(){
     //     clientAPIService.getClient($routeParams.id).success(function(data,status){

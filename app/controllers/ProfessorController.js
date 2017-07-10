@@ -1,9 +1,14 @@
-module.exports = function($scope,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
-    $scope.name = $filter("uppercase")(configValue.appName);
-    $scope.msg = "";
-    $scope.clients = [];
-    $scope.page = routeInfo.routeName;
-    $scope.navClass = routeInfo.navClass;
+module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
+    
+    var vm = $scope;
+
+    vm.name = $filter("uppercase")(configValue.appName);
+    vm.msg = "";
+    vm.clients = [];
+    vm.page = routeInfo.routeName;
+    vm.navClass = routeInfo.navClass;
+
+    $rootScope.navActive = true;
 
     //var bonus = '';
     //for(var i = 5; i>0;--i){

@@ -7,7 +7,7 @@ body {
 }
 
 .navbar-inverse-aluno{
-    background-color: #8ce327;
+    background-color: #65b509;
     border-color: transparent;
 }
 
@@ -31,4 +31,39 @@ body {
 
 .tamanhoBt-alunoProfessor{
     width: 50%
+}
+
+.colorProfessor{
+    color:#2774e3; 
+}
+
+.colorAluno{
+    color:#65b509;  
+}
+
+.grow:hover{
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+#professorModal{
+    margin-top: 100px;
+}
+
+#alunoModal{
+    margin-top:150px;
+}
+
+.paddingLeftRight100px{
+    padding-left: 100px;
+    padding-right: 100px; 
+}
+
+.linkCadastrar{
+    color: #2780e3;
+    position: relative;
+    right: 44px;
+    top: 0px;
 }

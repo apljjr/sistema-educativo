@@ -5,6 +5,7 @@
   "devDependencies": {
     "angular": "^1.5.2",
     "angular-route": "^1.5.3",
+    "angular-ui-bootstrap": "^2.5.0",
     "gulp": "^3.9.1",
     "gulp-browserify": "^0.5.1",
     "gulp-live-server": "0.0.29",
