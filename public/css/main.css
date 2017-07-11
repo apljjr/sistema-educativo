@@ -16,6 +16,10 @@ body {
     border-color: transparent;
 }
 
+.navbar-inverse-professor{
+    background-color: #2774e3;
+    border-color: transparent;
+}
 
 .navbar-brand {
     padding: 0px;
@@ -42,10 +46,10 @@ body {
 }
 
 .grow:hover{
-    -webkit-transform: scale(1.05);
+    -webkit-transform: scale(1.05) 1s ease-out;
     -ms-transform: scale(1.05);
     transform: scale(1.05);
-    cursor: pointer;
+    cursor: pointer; 
 }
 
 #professorModal{

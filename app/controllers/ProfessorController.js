@@ -1,6 +1,7 @@
 module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
     
     var vm = $scope;
+    var root = $rootScope;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -8,7 +9,12 @@ module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIServ
     vm.page = routeInfo.routeName;
     vm.navClass = routeInfo.navClass;
 
-    $rootScope.navActive = true;
+    var active = 'active'
+    vm.classActiveCriarAula; //active
+    vm.classActiveVisualizarAula; //active
+
+    vm.activeNavProfessor = true;
+
 
     //var bonus = '';
     //for(var i = 5; i>0;--i){

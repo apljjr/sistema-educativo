@@ -1,7 +1,6 @@
 require('angular');
 require('angular-route');
 require('./locale/angular-locale_pt-br');
-require('angular-ui-bootstrap');
 
 var routeConfig = require('./config/routeConfig');
 var configConstant = require('./config/configConstant');
@@ -28,6 +27,6 @@ angular.module('app').factory('clientAPIService',['$http','configValue',clientAP
 angular.module('app').service('clientTestService',['$http','configValue',clientTestService]);
 angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
-angular.module('app').controller('MainController',['$scope','$rootScope','$filter','configValue','routeInfo','$location',MainController]);
+angular.module('app').controller('MainController',['$scope','$rootScope','$filter','configValue','routeInfo','$location','$timeout',MainController]);
 angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
 angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams',AlunoController]);

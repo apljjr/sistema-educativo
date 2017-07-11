@@ -1,4 +1,4 @@
-module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$location,$uibModal){
+module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$location,$timeout){
     var vm = $scope;
 
     vm.name = $filter("uppercase")(configValue.appName);
@@ -10,13 +10,15 @@ module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$locat
     $rootScope.navActive = false;
 
     vm.viewProfessor = function(){
-        $location.path('/professor');
-        $scope.$apply();
+        $timeout( function(){
+            $location.path('/professor');
+        }, 200 );
     };
 
     vm.viewAluno = function(){
-        $location.path('/aluno');
-        $scope.$apply();
+         $timeout( function(){
+            $location.path('/aluno');
+        }, 500 );
     };
 
     
