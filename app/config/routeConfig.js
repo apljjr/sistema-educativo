@@ -1,10 +1,12 @@
 module.exports = function($routeProvider){
+    
+    
     $routeProvider.when("/home",{
         templateUrl:"view/home.html",
         controller:"MainController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Home",navClass:"navbar-default"};
+                return {routeName:"Home",navClass:"navbar-default", backgroundIMG:"body-imagem-home"};
             }
         }
     });

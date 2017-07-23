@@ -16,6 +16,16 @@ module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIServ
     vm.activeNavProfessor = true;
 
 
+    vm.removeFrame = function(idFrame){
+        // $(idFrame).remove();
+
+        $(idFrame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
+
+
     //var bonus = '';
     //for(var i = 5; i>0;--i){
         //bonus += Math.floor(Math.random()*10);

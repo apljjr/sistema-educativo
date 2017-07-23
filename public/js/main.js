@@ -13,12 +13,14 @@ module.exports = {
 module.exports=require(2)
 },{}],4:[function(require,module,exports){
 module.exports = function($routeProvider){
+    
+    
     $routeProvider.when("/home",{
         templateUrl:"view/home.html",
         controller:"MainController",
         resolve:{
             routeInfo:function(){
-                return {routeName:"Home",navClass:"navbar-default"};
+                return {routeName:"Home",navClass:"navbar-default", backgroundIMG:"body-imagem-home"};
             }
         }
     });
@@ -72,12 +74,16 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
 },{}],6:[function(require,module,exports){
 module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$location,$timeout){
     var vm = $scope;
+    var parent = $rootScope;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
     vm.clients = [];
     vm.page = routeInfo.routeName;
     vm.navClass = routeInfo.navClass;
+    vm.backgroundIMG = routeInfo.backgroundIMG;
+    vm.login = true;
+    vm.cadastrar = false;
 
     $rootScope.navActive = false;
 
@@ -92,6 +98,16 @@ module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$locat
             $location.path('/aluno');
         }, 500 );
     };
+
+    vm.viewCadastrar = function(){
+        vm.cadastrar = true;
+        vm.login = false;
+    };
+
+    vm.viewLogin = function(){
+        vm.cadastrar = false;
+        vm.login = true;
+    }
 
     
 
@@ -113,6 +129,16 @@ module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIServ
     vm.classActiveVisualizarAula; //active
 
     vm.activeNavProfessor = true;
+
+
+    vm.removeFrame = function(idFrame){
+        // $(idFrame).remove();
+
+        $(idFrame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
 
 
     //var bonus = '';
