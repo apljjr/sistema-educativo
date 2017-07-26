@@ -56,7 +56,7 @@ $date = listAll();
 echo json_encode($date);exit;
 
 function conn(){
-    $conn = new \PDO("mysql:host=localhost;dbname=test_angular","root","root");
+    $conn = new \PDO("mysql:host=localhost;dbname=eduq","root","root");
     return $conn;
 }
 

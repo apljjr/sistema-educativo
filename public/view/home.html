@@ -40,7 +40,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="viewLogin()"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" ng-click="closeModalProfessor()" aria-label="Close" ng-click="viewLogin()"><span aria-hidden="true">&times;</span></button>
                 <h1 ng-if="login" class="modal-title" id="myModalLabel" style="text-align: center">Acesso EduQ</h1>
                 <h1 ng-if="cadastrar" class="modal-title" id="myModalLabel" style="text-align: center">Cadastro EduQ</h1>
             </div>
@@ -49,37 +49,41 @@
                 <!--Conteudo acesso-->
                 <div ng-if="login">
                 <div class="form-group"> 
-                    <label class="control-label" for="usuarioProfessor">Usuário</label>
-                    <input class="form-control" id="usuarioProfessor" type="text">
+                    <label class="control-label">Usuário</label>
+                    <input class="form-control" type="text" id="userProfessor">
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="senhaProfessor">Senha</label>
-                    <input class="form-control" id="senhaProfessor" type="password">
+                    <label class="control-label">Senha</label>
+                    <input class="form-control" type="password" id="passProfessor">
                 </div>
+                </div>
+
+                <div ng-show="alertaLoginProfessor" class="alert alert-dismissible alert-danger text-center">
+                    <p>Dados incorretos, tente novamente.</p>
                 </div>
                 
 
                 <!--Conteudo cadastro-->
                 <div ng-if="cadastrar">
                 <div class="form-group"> 
-                    <label class="control-label" for="usuarioAluno">Nome completo</label>
-                    <input class="form-control" id="usuarioAluno" type="text">
+                    <label class="control-label">Nome completo</label>
+                    <input class="form-control" type="text">
                 </div>
                 <div class="form-group"> 
-                    <label class="control-label" for="tokenAluno">Nome de usuário</label>
-                    <input class="form-control" id="tokenAluno" type="text">
+                    <label class="control-label">Nome de usuário</label>
+                    <input class="form-control" type="text">
                 </div>
                 <div class="form-group"> 
-                    <label class="control-label" for="tokenAluno">E-mail</label>
-                    <input class="form-control" id="tokenAluno" type="text">
+                    <label class="control-label">E-mail</label>
+                    <input class="form-control" type="text">
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="senhaProfessor">Senha</label>
-                    <input class="form-control" id="senhaProfessor" type="password">
+                    <label class="control-label">Senha</label>
+                    <input class="form-control" type="password">
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="senhaProfessor">Confirmação de senha</label>
-                    <input class="form-control" id="senhaProfessor" type="password">
+                    <label class="control-label">Confirmação de senha</label>
+                    <input class="form-control" type="password">
                 </div>
                 </div>
                 
@@ -89,7 +93,7 @@
                 <!--Conteudo acesso-->
                 <div ng-if="login">
                     <a class="linkCadastrar" href="" ng-click="viewCadastrar()">Não é cadastrado? Se cadastre agora!</a>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="viewProfessor()">Acessar</button>
+                    <button type="button" class="btn btn-primary" ng-click="viewProfessor()">Acessar</button>
                 </div>
 
                 <!--Conteudo cadastro-->
@@ -106,23 +110,27 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" ng-click="closeModalAluno()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h1 class="modal-title" id="myModalLabel" style="text-align: center">Acesso EduQ</h1>
             </div>
             <div class="modal-body paddingLeftRight100px">
                 
                 <div class="form-group"> 
-                    <label class="control-label" for="usuarioAluno">Insira seu nome</label>
-                    <input class="form-control" id="usuarioAluno" type="text">
+                    <label class="control-label">Insira seu nome</label>
+                    <input class="form-control" id="nameAluno" type="text">
                 </div>
                 <div class="form-group"> 
-                    <label class="control-label" for="tokenAluno">Insira o token da aula</label>
+                    <label class="control-label">Insira o token da aula</label>
                     <input class="form-control" id="tokenAluno" type="text">
+                </div>
+
+                <div ng-show="alertaTokenAluno" class="alert alert-dismissible alert-danger text-center">
+                    <p>Dados incorretos, tente novamente.</p>
                 </div>
                 
             </div>
             <div class="modal-footer paddingLeftRight100px" style="text-align: center">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="viewAluno()">Acessar Aula</button>
+                <button type="button" class="btn btn-primary" ng-click="viewAluno()">Acessar Aula</button>
             </div>
             </div>
         </div>

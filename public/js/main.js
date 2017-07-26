@@ -87,16 +87,66 @@ module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$locat
 
     $rootScope.navActive = false;
 
+    vm.alertaLoginProfessor = false;
+    vm.alertaTokenAluno = false;
+
     vm.viewProfessor = function(){
-        $timeout( function(){
-            $location.path('/professor');
-        }, 200 );
+
+        var user = document.getElementById("userProfessor").value;
+        var key = document.getElementById("passProfessor").value;
+
+        if(user === 'eduq' && key === 'eduq'){
+
+            parent.userProfessor = user;
+            vm.alertaLoginProfessor = false;
+            $('#professorModal').modal('hide');
+
+            $timeout( function(){
+                $location.path('/professor');
+            }, 200 );
+
+        }else{
+
+            vm.alertaLoginProfessor = true;
+
+        }     
     };
 
     vm.viewAluno = function(){
-         $timeout( function(){
-            $location.path('/aluno');
-        }, 500 );
+
+        var name = document.getElementById("nameAluno").value;
+        var token = document.getElementById("tokenAluno").value;
+
+        if(token === '123'){
+
+            parent.nomeAluno = name;
+            parent.token = token;
+            vm.alertaTokenAluno = false;
+            $('#alunoModal').modal('hide');
+
+             $timeout( function(){
+                $location.path('/aluno');
+            }, 500 );
+
+        }else{
+
+            vm.alertaTokenAluno = true;
+            
+        }
+    };
+
+    vm.closeModalAluno = function(){
+
+        vm.alertaTokenAluno = false;
+        $('#alunoModal').modal('hide');
+
+    };
+
+    vm.closeModalProfessor = function(){
+
+        vm.alertaLoginProfessor = false;
+        $('#professorModal').modal('hide');
+
     };
 
     vm.viewCadastrar = function(){
@@ -108,9 +158,7 @@ module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$locat
         vm.cadastrar = false;
         vm.login = true;
     }
-
     
-
 };
 },{}],7:[function(require,module,exports){
 module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){

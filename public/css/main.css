@@ -50,6 +50,13 @@ body {
     cursor: pointer; 
 }
 
+.grow1:hover{
+    -webkit-transform: scale(1.05) 1s ease-out;
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+    cursor: pointer; 
+}
+
 #professorModal{
     margin-top: 100px;
 }
