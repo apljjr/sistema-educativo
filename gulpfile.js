@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     server = require('gulp-live-server'),
     browserify = require('gulp-browserify'),
-    rename = require("gulp-rename");
+    rename = require("gulp-rename"),
+    build = require('gulp-build');
 
 gulp.task('default', ['browserify','watch','serve']);
 
@@ -29,5 +30,11 @@ gulp.task('browserify', function(){
         //.pipe(uglify())
         .pipe(rename("main.js"))
         .pipe(gulp.dest('public/js/'));
+});
+
+gulp.task('build', function() {
+  gulp.src('app/*.js')
+      .pipe(build({ GA_ID: '123456' }))
+      .pipe(gulp.dest('dist'))
 });
 
