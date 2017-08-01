@@ -11,7 +11,7 @@ module.exports = function($routeProvider){
         }
     });
     $routeProvider.when("/aluno",{
-        templateUrl:"view/aluno.html",
+        templateUrl:"view/aluno/aluno.html",
         controller:"AlunoController",
         resolve:{
             routeInfo:function(){
@@ -29,5 +29,16 @@ module.exports = function($routeProvider){
             }
         }
     });
+
+    $routeProvider.when("/quizAluno",{
+        templateUrl:"view/aluno/quiz.html",
+        controller:"AlunoQuizController",
+        resolve:{
+            routeInfo:function(){
+                return {routeName:"Aluno",navClass:"navbar-inverse-aluno"};
+            }
+        }
+    });
+
     $routeProvider.otherwise({redirectTo:"/home"});
 };

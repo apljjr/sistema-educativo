@@ -2,14 +2,14 @@
 <section class="container">
     <div class="jumbotron">
 
-        <h2 class="text-center" style="margin-top:-20px">
+        <h2 class="text-center colorDefault" >
             Aluno, assista os vídeos selecionados pelo seu professor para depois começar o Quiz!
         </h2>
 
-        <div class="container testimonial-group" style="background-color: transparent; margin-top:50px">
-            <div class="row text-center" id="style-3">
+        <div class="container testimonial-group" style="background-color: transparent; margin-top:50px;">
+            <div class="row text-center" id="style-3" style="height: 250px">
                 <div class="col-xs-4">
-                    <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 30px; cursor: pointer;" data-toggle="modal" data-target="#videoModal">
+                    <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" data-toggle="modal" data-target="#videoModal">
                         <img src="../img/ensino-hibrido.png" width="100%">
                     </div>
                 </div>
@@ -60,7 +60,7 @@
         </div>
 
         <div class="text-center" style="margin-top:50px">
-            <button type="button" class="btn btn-success">Começar Quiz</button>
+            <button type="button" class="btn btn-success" ng-click="iniciarQuiz()">Começar Quiz</button>
         </div>
     
     </div>

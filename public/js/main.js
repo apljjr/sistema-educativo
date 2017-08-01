@@ -25,7 +25,7 @@ module.exports = function($routeProvider){
         }
     });
     $routeProvider.when("/aluno",{
-        templateUrl:"view/aluno.html",
+        templateUrl:"view/aluno/aluno.html",
         controller:"AlunoController",
         resolve:{
             routeInfo:function(){
@@ -43,10 +43,21 @@ module.exports = function($routeProvider){
             }
         }
     });
+
+    $routeProvider.when("/quizAluno",{
+        templateUrl:"view/aluno/quiz.html",
+        controller:"AlunoQuizController",
+        resolve:{
+            routeInfo:function(){
+                return {routeName:"Aluno",navClass:"navbar-inverse-aluno"};
+            }
+        }
+    });
+
     $routeProvider.otherwise({redirectTo:"/home"});
 };
 },{}],5:[function(require,module,exports){
-module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams){
+module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $location){
     
     var vm = $scope;
     $rootScope.navActive = true;
@@ -70,8 +81,51 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
 
     // listClient();
 
+    vm.iniciarQuiz = function(){
+        $location.path('/quizAluno');
+    };
+
 };
 },{}],6:[function(require,module,exports){
+module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $http, $sce){
+    
+    var vm = $scope;
+    $rootScope.navActive = true;
+    
+    vm.name = $filter("uppercase")(configValue.appName);
+    vm.msg = "";
+    vm.clients = [];
+    vm.page = routeInfo.routeName;
+    vm.navClass = routeInfo.navClass;
+
+    $rootScope.navActive = true;
+
+    vm.clickResposta = function(value){
+      if(value === 1){
+        vm.resp1 = true;
+        vm.resp2 = false;
+        vm.resp3 = false;
+        vm.resp4 = false;
+      }else if(value === 2){
+        vm.resp1 = false;
+        vm.resp2 = true;
+        vm.resp3 = false;
+        vm.resp4 = false;
+      }else if(value === 3){
+        vm.resp1 = false;
+        vm.resp2 = false;
+        vm.resp3 = true;
+        vm.resp4 = false;
+      }else if(value === 4){
+        vm.resp1 = false;
+        vm.resp2 = false;
+        vm.resp3 = false;
+        vm.resp4 = true;
+      }
+    };
+
+};
+},{}],7:[function(require,module,exports){
 module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$location,$timeout){
     var vm = $scope;
     var parent = $rootScope;
@@ -160,7 +214,7 @@ module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$locat
     }
     
 };
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
     
     var vm = $scope;
@@ -251,7 +305,7 @@ module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIServ
     //     $scope.reverse = !$scope.reverse;
     // };
 };
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = function(){
     return {
         template:  `
@@ -267,7 +321,7 @@ module.exports = function(){
         transclude: true
     };
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = function(){
     return{
         require: "ngModel",
@@ -300,7 +354,7 @@ module.exports = function(){
         }
     };
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('angular');
 require('angular-route');
 require('./locale/angular-locale_pt-br');
@@ -315,6 +369,7 @@ var clientTestService = require('./services/clientTestService');
 var MainController = require('./controllers/MainController');
 var ProfessorController = require('./controllers/ProfessorController');
 var AlunoController = require('./controllers/AlunoController');
+var AlunoQuizController = require('./controllers/AlunoQuizController');
 var maskTel = require('./directives/maskTel');
 var alertMsg = require('./directives/alertMsg');
 
@@ -332,8 +387,9 @@ angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
 angular.module('app').controller('MainController',['$scope','$rootScope','$filter','configValue','routeInfo','$location','$timeout',MainController]);
 angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
-angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams',AlunoController]);
-},{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/AlunoController":5,"./controllers/MainController":6,"./controllers/ProfessorController":7,"./directives/alertMsg":8,"./directives/maskTel":9,"./locale/angular-locale_pt-br":11,"./services/bonusGenerator":12,"./services/clientAPIService":13,"./services/clientTestService":14,"angular":18,"angular-route":16}],11:[function(require,module,exports){
+angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location',AlunoController]);
+angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce',AlunoQuizController]);
+},{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/AlunoController":5,"./controllers/AlunoQuizController":6,"./controllers/MainController":7,"./controllers/ProfessorController":8,"./directives/alertMsg":9,"./directives/maskTel":10,"./locale/angular-locale_pt-br":12,"./services/bonusGenerator":13,"./services/clientAPIService":14,"./services/clientTestService":15,"angular":19,"angular-route":17}],12:[function(require,module,exports){
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -459,7 +515,7 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
         "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
     });
 }]);
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 module.exports = function bonusGeneratorProvider(){
     var _length = 5;
     this.getLength = function(){
@@ -482,7 +538,7 @@ module.exports = function bonusGeneratorProvider(){
         }
     };
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = function($http,configValue){
     var _getClients = function(){
         return $http.get(configValue.apiURL);
@@ -500,7 +556,7 @@ module.exports = function($http,configValue){
         saveClients:_saveClients
     };
 };
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = function($http,configValue){
     this.getClients = function(){
         return $http.get(configValue.apiURL);
@@ -510,7 +566,7 @@ module.exports = function($http,configValue){
     };
 
 };
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.5
  * (c) 2010-2017 Google, Inc. http://angularjs.org
@@ -1741,11 +1797,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":15}],17:[function(require,module,exports){
+},{"./angular-route":16}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.5
  * (c) 2010-2017 Google, Inc. http://angularjs.org
@@ -35577,8 +35633,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":17}]},{},[10])
+},{"./angular":18}]},{},[11])

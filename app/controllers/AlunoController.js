@@ -1,4 +1,4 @@
-module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams){
+module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $location){
     
     var vm = $scope;
     $rootScope.navActive = true;
@@ -21,5 +21,9 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     // };
 
     // listClient();
+
+    vm.iniciarQuiz = function(){
+        $location.path('/quizAluno');
+    };
 
 };
