@@ -11,6 +11,8 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
 
     $rootScope.navActive = true;
 
+    vm.activeNavAluno = true;
+
 
     // var listClient = function(){
     //     clientAPIService.getClient($routeParams.id).success(function(data,status){
