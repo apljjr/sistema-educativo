@@ -12,8 +12,8 @@
     
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li ng-if="activeNavProfessor" class="{{classActiveCriarAula}}"><a href="">Criar Aula</a></li>
-        <li ng-if="activeNavProfessor" class="{{classActiveVisualizarAula}}"><a href="">Visualizar Aulas</a></li>
+        <li ng-if="activeNavProfessor" class="{{classActiveCriarAula}}"><a href="" ng-click="redirectCriarAula()">Criar Aula</a></li>
+        <li ng-if="activeNavProfessor" class="{{classActiveVisualizarAula}}"><a href="" ng-click="redirectVisualizarAulas()">Visualizar Aulas</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li ng-if="activeNavProfessor || activeNavAluno"><a href="#">Sair</a></li>

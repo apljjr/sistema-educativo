@@ -1,0 +1,56 @@
+<header ng-include="'view/nav.html'"></header>
+<section class="container">
+    <div class="jumbotron row colorDefault">
+        
+        <div style="margin-bottom: 30px">
+            <h2>Painel de Aulas</h2>
+        </div>
+        <div class="panel panel-warning" ng-repeat="aula in arrayAulas">
+            <div class="panel-heading" style="height: 40px;">
+                <div class="col-md-10">
+                    <h3 class="panel-title">{{aula.disciplina}} - {{aula.conteudoGeral}}</h3>    
+                </div>
+                <div class="col-md-2 text-right">
+                     <i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 23px;"></i>
+                </div>
+               
+            </div>
+            <div class="panel-body">
+                <p>Token: {{aula.token}}</p>
+                <p>{{aula.conteudoEspecifico}}</p>
+                <p>{{aula.objetivoAula}}</p>
+
+                <labe class="control-label">Videos:</labe>
+                <div class="well">
+                    <div class="container testimonial-group" >
+                        <div class="row" id="style-3" style="height: 180px;padding: 20px;">
+                            <div class="col-xs-3" ng-repeat="video in aula.videos">
+                                <div class="text-center grow1" style="margin-top:0px; cursor: pointer;" data-toggle="modal" data-target="#videoModal">
+                                    <iframe width="220" height="130" ng-src="{{trustSrc(video)}}" frameborder="0" allowfullscreen></iframe>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <labe class="control-label">Perguntas:</labe>
+                <div class="well" >
+                    <div class="list-group" ng-repeat="question in aula.perguntas.questions" > 
+                        <div class="list-group-item" >
+                            <p class="list-group-item-heading">{{question.question}}</p>
+                            <h4 class="list-group-item-text">{{question.options[0]}}</h4>
+                            <h4 class="list-group-item-text">{{question.options[1]}}</h4>
+                            <h4 class="list-group-item-text">{{question.options[2]}}</h4>
+                            <h4 class="list-group-item-text">{{question.options[3]}}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="text-center" style="margin-top: 30px">
+                    <button class="btn btn-danger" ng-click="">Apagar aula</button>
+                </div>
+                
+            </div>
+        </div>
+    </div> 
+
+</section>

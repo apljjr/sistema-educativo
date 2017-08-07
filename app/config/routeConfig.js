@@ -30,6 +30,26 @@ module.exports = function($routeProvider){
         }
     });
 
+    $routeProvider.when("/criarAulaProfessor",{
+        templateUrl:"view/professor/criarAula.html",
+        controller:"ProfessorCriarAulaController",
+        resolve:{
+            routeInfo:function(){
+                return {routeName:"Professor",navClass:"navbar-inverse-professor"};
+            }
+        }
+    });
+
+    $routeProvider.when("/visualizarAulasProfessor",{
+        templateUrl:"view/professor/visualizarAulas.html",
+        controller:"ProfessorVisualizarAulasController",
+        resolve:{
+            routeInfo:function(){
+                return {routeName:"Professor",navClass:"navbar-inverse-professor"};
+            }
+        }
+    });
+
     $routeProvider.when("/quizAluno",{
         templateUrl:"view/aluno/quiz.html",
         controller:"AlunoQuizController",

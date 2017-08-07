@@ -44,6 +44,26 @@ module.exports = function($routeProvider){
         }
     });
 
+    $routeProvider.when("/criarAulaProfessor",{
+        templateUrl:"view/professor/criarAula.html",
+        controller:"ProfessorCriarAulaController",
+        resolve:{
+            routeInfo:function(){
+                return {routeName:"Professor",navClass:"navbar-inverse-professor"};
+            }
+        }
+    });
+
+    $routeProvider.when("/visualizarAulasProfessor",{
+        templateUrl:"view/professor/visualizarAulas.html",
+        controller:"ProfessorVisualizarAulasController",
+        resolve:{
+            routeInfo:function(){
+                return {routeName:"Professor",navClass:"navbar-inverse-professor"};
+            }
+        }
+    });
+
     $routeProvider.when("/quizAluno",{
         templateUrl:"view/aluno/quiz.html",
         controller:"AlunoQuizController",
@@ -311,7 +331,7 @@ module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$locat
     
 };
 },{}],8:[function(require,module,exports){
-module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
     
     var vm = $scope;
     var root = $rootScope;
@@ -336,6 +356,14 @@ module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIServ
         var el_src = $(this).attr("src");
         $(this).attr("src",el_src);
       });
+    };
+
+    vm.redirectCriarAula = function(){
+        $location.path('/criarAulaProfessor');  
+    };
+
+    vm.redirectVisualizarAulas = function(){
+        $location.path('/visualizarAulasProfessor');
     };
 
 
@@ -402,6 +430,256 @@ module.exports = function($scope,$rootScope,location,$http,$filter,clientAPIServ
     // };
 };
 },{}],9:[function(require,module,exports){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $sce){
+    
+    var vm = $scope;
+    var parent = $rootScope;
+
+    vm.name = $filter("uppercase")(configValue.appName);
+    vm.msg = "";
+    vm.clients = [];
+    vm.page = routeInfo.routeName;
+    vm.navClass = routeInfo.navClass;
+
+    var active = 'active'
+    vm.classActiveCriarAula; //active
+    vm.classActiveVisualizarAula; //active
+
+    vm.activeNavProfessor = true;
+
+    vm.step1 = true;
+    vm.step2 = false;
+    vm.step3 = false;
+    vm.step4 = false;
+
+    // options: complete - active - disabled
+    vm.stepDadosGerais = "complete";
+    vm.stepVideos = "disabled";
+    vm.stepPerguntas = "disabled";
+    vm.stepFinalizar = "disabled";
+
+    vm.objectAula = {
+        'disciplina':null,
+        'conteudoGeral': null,
+        'conteudoEspecifico': null,
+        'objetivoAula':null,
+        'videos': null,
+        'perguntas': null
+    }
+
+    vm.listaVideos = [
+        "https://www.youtube.com/embed/49P7uTXpPOI",
+        "https://www.youtube.com/embed/Sy_LUnePfRE",
+        "https://www.youtube.com/embed/zpQEwWiZF7Y",
+        "https://www.youtube.com/embed/Ks90DtZUso4"    
+    ];
+
+    vm.listaVideosView;
+
+    vm.listaAdicionados = [];
+
+    parent.arrayPerguntas = {
+        'questions':[]
+    };
+
+    vm.estruturaQuestao = {
+        "question": null,
+        "options":[ null, null, null, null],
+        "correct": 1
+    };
+
+    function cleanQuestao(){
+        var q = {
+            "question":"",
+            "options":[ "", "", "", ""],
+            "correct": 1
+        };
+
+        vm.estruturaQuestao = q;
+    }
+
+    vm.numQuestao = 1;
+
+    vm.trustSrc = function(src) {
+        return $sce.trustAsResourceUrl(src);
+    };
+
+    vm.avancarStep1 = function(){
+
+        vm.stepDadosGerais = "complete";
+        vm.stepVideos = "complete";
+        vm.stepPerguntas = "disabled";
+        vm.stepFinalizar = "disabled";
+
+        vm.step1 = false;
+        vm.step2 = true;
+        vm.step3 = false;
+        vm.step4 = false;
+
+    };
+
+    vm.avancarStep2 = function(){
+        vm.stepDadosGerais = "complete";
+        vm.stepVideos = "complete";
+        vm.stepPerguntas = "complete";
+        vm.stepFinalizar = "disabled";
+
+        vm.step1 = false;
+        vm.step2 = false;
+        vm.step3 = true;
+        vm.step4 = false;
+    };
+
+    vm.avancarStep3 = function(){
+        vm.stepDadosGerais = "complete";
+        vm.stepVideos = "complete";
+        vm.stepPerguntas = "complete";
+        vm.stepFinalizar = "active";
+
+        vm.step1 = false;
+        vm.step2 = false;
+        vm.step3 = false;
+        vm.step4 = true;
+    };
+
+    vm.buscarVideos = function(value){
+        vm.viewVideos = true;
+        vm.listaVideosView = vm.listaVideos;
+
+    }
+
+    vm.adicionarVideo = function(value){
+
+        vm.listaAdicionados.push(value);
+        vm.viewVideosAdd = false;
+        vm.viewVideosAdd = true;
+    };
+
+    vm.novaQuestao = function(){
+        vm.numQuestao++;
+        parent.arrayPerguntas.questions.push(vm.estruturaQuestao);
+        cleanQuestao();
+    };
+
+    vm.redirectCriarAula = function(){
+        $location.path('/criarAulaProfessor');  
+    };
+
+    vm.redirectVisualizarAulas = function(){
+        $location.path('/visualizarAulasProfessor');
+    };
+
+
+    
+};
+},{}],10:[function(require,module,exports){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo,$sce){
+    
+    var vm = $scope;
+    var root = $rootScope;
+
+    vm.name = $filter("uppercase")(configValue.appName);
+    vm.msg = "";
+    vm.clients = [];
+    vm.page = routeInfo.routeName;
+    vm.navClass = routeInfo.navClass;
+
+    var active = 'active'
+    vm.classActiveCriarAula; //active
+    vm.classActiveVisualizarAula; //active
+
+    vm.activeNavProfessor = true;
+
+    vm.redirectCriarAula = function(){
+        $location.path('/criarAulaProfessor');  
+    };
+
+    vm.redirectVisualizarAulas = function(){
+        $location.path('/visualizarAulasProfessor');
+    };
+
+    vm.trustSrc = function(src) {
+        return $sce.trustAsResourceUrl(src);
+    };
+
+    vm.arrayAulas = [];
+
+    vm.objectAula1 = {
+        'token': '07082017123',
+        'disciplina':'Português',
+        'conteudoGeral': 'Ortográfia das palavras',
+        'conteudoEspecifico': 'Acentuação',
+        'objetivoAula':'A aula tem por objetivo melhorar os conhecimento da nova ortografia da língua portuguesa',
+        'videos': [
+            "https://www.youtube.com/embed/49P7uTXpPOI",
+            "https://www.youtube.com/embed/Sy_LUnePfRE",
+            "https://www.youtube.com/embed/zpQEwWiZF7Y",
+            "https://www.youtube.com/embed/Ks90DtZUso4"    
+        ],
+        'perguntas':{
+        "questions":[
+            {
+            "question":"As novas regras de acentuação trouxeram algumas mudanças no acento de algumas palavras. Assinale a alternativa que faz parte da mudança do novo acordo:",
+            "options":[ "Ditongos OI e EI serão acentuados somente nas palavras paroxítonas.",
+                        "Não acentuamos mais as oxítonas terminadas em vogais.",
+                        "Ditongos abertos nas palavras proparoxítonas não são mais acentuados.",
+                        "As letras I e U que vierem após um ditongo nas palavras paroxítonas não são mais acentuadas."  ],
+            "correct": 4
+            },
+            {
+            "question":"Assinale a alternativa que tenha palavras com a mesma regra de acentuação:",
+            "options":[ "Pá, compôs, herói, vácuo, sótão, estética.",
+                        "Louvável, álbum, revólver, táxi, éden.",
+                        "Repórter, louvável, álbum, fotógrafo, farmácia.",
+                        "Sabiá, jiló, café, sótão, órfão, órgão."  ],
+            "correct": 2
+            }            
+        ]
+        }
+    };
+
+    vm.objectAula2 = {
+        'token': '07082017321',
+        'disciplina':'Português',
+        'conteudoGeral': 'Gramática',
+        'conteudoEspecifico': 'Verbo',
+        'objetivoAula':'A aula tem por objetivo melhorar os conhecimento da nova ortografia da língua portuguesa',
+        'videos': [
+            "https://www.youtube.com/embed/49P7uTXpPOI",
+            "https://www.youtube.com/embed/Sy_LUnePfRE",
+            "https://www.youtube.com/embed/zpQEwWiZF7Y",
+            "https://www.youtube.com/embed/Ks90DtZUso4"    
+        ],
+        'perguntas':{
+        "questions":[
+            {
+            "question":"As novas regras de acentuação trouxeram algumas mudanças no acento de algumas palavras. Assinale a alternativa que faz parte da mudança do novo acordo:",
+            "options":[ "Ditongos OI e EI serão acentuados somente nas palavras paroxítonas.",
+                        "Não acentuamos mais as oxítonas terminadas em vogais.",
+                        "Ditongos abertos nas palavras proparoxítonas não são mais acentuados.",
+                        "As letras I e U que vierem após um ditongo nas palavras paroxítonas não são mais acentuadas."  ],
+            "correct": 4
+            },
+            {
+            "question":"Assinale a alternativa que tenha palavras com a mesma regra de acentuação:",
+            "options":[ "Pá, compôs, herói, vácuo, sótão, estética.",
+                        "Louvável, álbum, revólver, táxi, éden.",
+                        "Repórter, louvável, álbum, fotógrafo, farmácia.",
+                        "Sabiá, jiló, café, sótão, órfão, órgão."  ],
+            "correct": 2
+            }            
+        ]
+        }
+    };
+
+    vm.arrayAulas.push(vm.objectAula1);
+    vm.arrayAulas.push(vm.objectAula2);
+
+
+
+
+};
+},{}],11:[function(require,module,exports){
 module.exports = function(){
     return {
         template:  `
@@ -417,7 +695,7 @@ module.exports = function(){
         transclude: true
     };
 };
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = function(){
     return{
         require: "ngModel",
@@ -450,7 +728,7 @@ module.exports = function(){
         }
     };
 };
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('angular');
 require('angular-route');
 require('./locale/angular-locale_pt-br');
@@ -466,6 +744,8 @@ var MainController = require('./controllers/MainController');
 var ProfessorController = require('./controllers/ProfessorController');
 var AlunoController = require('./controllers/AlunoController');
 var AlunoQuizController = require('./controllers/AlunoQuizController');
+var ProfessorCriarAulaController = require('./controllers/ProfessorCriarAulaController');
+var ProfessorVisualizarAulasController = require('./controllers/ProfessorVisualizarAulasController');
 var maskTel = require('./directives/maskTel');
 var alertMsg = require('./directives/alertMsg');
 
@@ -485,7 +765,11 @@ angular.module('app').controller('MainController',['$scope','$rootScope','$filte
 angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
 angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location',AlunoController]);
 angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce',AlunoQuizController]);
-},{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/AlunoController":5,"./controllers/AlunoQuizController":6,"./controllers/MainController":7,"./controllers/ProfessorController":8,"./directives/alertMsg":9,"./directives/maskTel":10,"./locale/angular-locale_pt-br":12,"./services/bonusGenerator":13,"./services/clientAPIService":14,"./services/clientTestService":15,"angular":19,"angular-route":17}],12:[function(require,module,exports){
+angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce',ProfessorCriarAulaController]);
+angular.module('app').controller('ProfessorVisualizarAulasController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce',ProfessorVisualizarAulasController]);
+
+
+},{"./config/configBonusProvider":1,"./config/configConstant":2,"./config/configValue":3,"./config/routeConfig":4,"./controllers/AlunoController":5,"./controllers/AlunoQuizController":6,"./controllers/MainController":7,"./controllers/ProfessorController":8,"./controllers/ProfessorCriarAulaController":9,"./controllers/ProfessorVisualizarAulasController":10,"./directives/alertMsg":11,"./directives/maskTel":12,"./locale/angular-locale_pt-br":14,"./services/bonusGenerator":15,"./services/clientAPIService":16,"./services/clientTestService":17,"angular":21,"angular-route":19}],14:[function(require,module,exports){
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -611,7 +895,7 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
         "pluralCat": function(n, opt_precision) {  if (n >= 0 && n <= 2 && n != 2) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
     });
 }]);
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = function bonusGeneratorProvider(){
     var _length = 5;
     this.getLength = function(){
@@ -634,7 +918,7 @@ module.exports = function bonusGeneratorProvider(){
         }
     };
 };
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = function($http,configValue){
     var _getClients = function(){
         return $http.get(configValue.apiURL);
@@ -652,7 +936,7 @@ module.exports = function($http,configValue){
         saveClients:_saveClients
     };
 };
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = function($http,configValue){
     this.getClients = function(){
         return $http.get(configValue.apiURL);
@@ -662,7 +946,7 @@ module.exports = function($http,configValue){
     };
 
 };
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.5
  * (c) 2010-2017 Google, Inc. http://angularjs.org
@@ -1893,11 +2177,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":16}],18:[function(require,module,exports){
+},{"./angular-route":18}],20:[function(require,module,exports){
 /**
  * @license AngularJS v1.6.5
  * (c) 2010-2017 Google, Inc. http://angularjs.org
@@ -35729,8 +36013,8 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":18}]},{},[11])
+},{"./angular":20}]},{},[13])
