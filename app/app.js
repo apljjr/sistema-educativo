@@ -18,7 +18,7 @@ var ProfessorVisualizarAulasController = require('./controllers/ProfessorVisuali
 var maskTel = require('./directives/maskTel');
 var alertMsg = require('./directives/alertMsg');
 
-angular.module('app',['ngRoute']);
+angular.module('app',['ngRoute', 'jtt_youtube']);
 angular.module('app').constant('configConstant',configValue);
 angular.module('app').value('configValue',configValue);
 angular.module('app').provider('bonusGenerator',[bonusGenerator]);
@@ -34,6 +34,6 @@ angular.module('app').controller('MainController',['$scope','$rootScope','$filte
 angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
 angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location',AlunoController]);
 angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce',AlunoQuizController]);
-angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce',ProfessorCriarAulaController]);
+angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce','youtubeFactory',ProfessorCriarAulaController]);
 angular.module('app').controller('ProfessorVisualizarAulasController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce',ProfessorVisualizarAulasController]);
 

@@ -1,4 +1,4 @@
-module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $sce){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $sce, youtubeFactory){
     
     var vm = $scope;
     var parent = $rootScope;
@@ -42,7 +42,7 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         "https://www.youtube.com/embed/Ks90DtZUso4"    
     ];
 
-    vm.listaVideosView;
+    vm.listaVideosView = [];
 
     vm.listaAdicionados = [];
 
@@ -110,11 +110,11 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         vm.step4 = true;
     };
 
-    vm.buscarVideos = function(value){
-        vm.viewVideos = true;
-        vm.listaVideosView = vm.listaVideos;
+    // vm.buscarVideos = function(value){
+    //     vm.viewVideos = true;
+    //     vm.listaVideosView = vm.listaVideos;
 
-    }
+    // };
 
     vm.adicionarVideo = function(value){
 
@@ -136,6 +136,32 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     vm.redirectVisualizarAulas = function(){
         $location.path('/visualizarAulasProfessor');
     };
+
+
+    var _apiKey = "AIzaSyCfkG-aD3kVrHHfgkklihC8MhbaMaUOiKY";
+
+    vm.buscarVideos = function(value){
+        vm.listaVideosView = [];
+        youtubeFactory.getVideosFromSearchByParams({
+            q: value.replace(/%20/g, "+"),
+            maxResults: "20",
+            key: _apiKey,
+            order: "viewCount",
+        }).then(function (_data) {
+
+            _data.data.items.forEach(
+                function(element) {
+                vm.listaVideosView.push("https://www.youtube.com/embed/" + element.id.videoId);
+            });
+
+            
+            console.info("videos from search by q", _data);
+        });
+
+        vm.viewVideos = true;
+        // vm.listaVideosView = vm.listaVideos;
+    };
+    
 
 
     

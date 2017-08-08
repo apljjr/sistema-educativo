@@ -430,7 +430,7 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     // };
 };
 },{}],9:[function(require,module,exports){
-module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $sce){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $sce, youtubeFactory){
     
     var vm = $scope;
     var parent = $rootScope;
@@ -474,7 +474,7 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         "https://www.youtube.com/embed/Ks90DtZUso4"    
     ];
 
-    vm.listaVideosView;
+    vm.listaVideosView = [];
 
     vm.listaAdicionados = [];
 
@@ -542,11 +542,11 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         vm.step4 = true;
     };
 
-    vm.buscarVideos = function(value){
-        vm.viewVideos = true;
-        vm.listaVideosView = vm.listaVideos;
+    // vm.buscarVideos = function(value){
+    //     vm.viewVideos = true;
+    //     vm.listaVideosView = vm.listaVideos;
 
-    }
+    // };
 
     vm.adicionarVideo = function(value){
 
@@ -568,6 +568,32 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     vm.redirectVisualizarAulas = function(){
         $location.path('/visualizarAulasProfessor');
     };
+
+
+    var _apiKey = "AIzaSyCfkG-aD3kVrHHfgkklihC8MhbaMaUOiKY";
+
+    vm.buscarVideos = function(value){
+        vm.listaVideosView = [];
+        youtubeFactory.getVideosFromSearchByParams({
+            q: value.replace(/%20/g, "+"),
+            maxResults: "20",
+            key: _apiKey,
+            order: "viewCount",
+        }).then(function (_data) {
+
+            _data.data.items.forEach(
+                function(element) {
+                vm.listaVideosView.push("https://www.youtube.com/embed/" + element.id.videoId);
+            });
+
+            
+            console.info("videos from search by q", _data);
+        });
+
+        vm.viewVideos = true;
+        // vm.listaVideosView = vm.listaVideos;
+    };
+    
 
 
     
@@ -749,7 +775,7 @@ var ProfessorVisualizarAulasController = require('./controllers/ProfessorVisuali
 var maskTel = require('./directives/maskTel');
 var alertMsg = require('./directives/alertMsg');
 
-angular.module('app',['ngRoute']);
+angular.module('app',['ngRoute', 'jtt_youtube']);
 angular.module('app').constant('configConstant',configValue);
 angular.module('app').value('configValue',configValue);
 angular.module('app').provider('bonusGenerator',[bonusGenerator]);
@@ -765,7 +791,7 @@ angular.module('app').controller('MainController',['$scope','$rootScope','$filte
 angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
 angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location',AlunoController]);
 angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce',AlunoQuizController]);
-angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce',ProfessorCriarAulaController]);
+angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce','youtubeFactory',ProfessorCriarAulaController]);
 angular.module('app').controller('ProfessorVisualizarAulasController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce',ProfessorVisualizarAulasController]);
 
 

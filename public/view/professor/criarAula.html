@@ -73,9 +73,9 @@
             <div class="form-group">
             <label class="control-label">Encontre videos relacionados a sua aula</label>
             <div class="input-group">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" ng-model="palavraChave">
                 <span class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="buscarVideos()">Pesquisar</button>
+                <button class="btn btn-default" type="button" ng-click="buscarVideos(palavraChave)">Pesquisar</button>
                 </span>
             </div>
             </div>
