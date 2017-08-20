@@ -1,7 +1,9 @@
-module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $sce, youtubeFactory){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,
+                        bonusGenerator,routeInfo, $sce, youtubeFactory, $firebase, $localStorage, $route){
     
     var vm = $scope;
     var parent = $rootScope;
+    var storege = $localStorage;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -26,44 +28,70 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     vm.stepPerguntas = "disabled";
     vm.stepFinalizar = "disabled";
 
-    vm.objectAula = {
-        'disciplina':null,
-        'conteudoGeral': null,
-        'conteudoEspecifico': null,
-        'objetivoAula':null,
-        'videos': null,
-        'perguntas': null
+    if (!firebase.apps.length) {
+        parent.config = {
+            apiKey: 'AIzaSyCBncy_zTg4cSEaOoy0FfRVZYjVV5c1LOQ',
+            authDomain: 'eduq-b0d87.firebaseapp.com',
+            databaseURL: 'https://eduq-b0d87.firebaseio.com',
+        };
+
+        firebase.initializeApp(parent.config);
     }
-
-    vm.listaVideos = [
-        "https://www.youtube.com/embed/49P7uTXpPOI",
-        "https://www.youtube.com/embed/Sy_LUnePfRE",
-        "https://www.youtube.com/embed/zpQEwWiZF7Y",
-        "https://www.youtube.com/embed/Ks90DtZUso4"    
-    ];
-
-    vm.listaVideosView = [];
-
-    vm.listaAdicionados = [];
-
-    parent.arrayPerguntas = {
-        'questions':[]
+    
+    vm.add = function(){
+        $.each(vm.objectAula.videos, function(index, result) {
+            delete result["$$hashKey"];
+        });
+        $.each(vm.objectAula.perguntas, function(index, result) {
+            delete result["$$hashKey"];
+        });
+        firebase.database().ref('aulas/' + vm.objectAula.token).set(vm.objectAula);
+    };
+    
+   vm.edit=function(value){
+        $scope.app=value;
     };
 
+    vm.delete=function(item){
+        $scope.DB.$remove(item);
+    };
+
+    vm.objectAula = {
+        token:'',
+        user: storege.user,
+        disciplina:'',
+        conteudoGeral: '',
+        conteudoEspecifico:'',
+        objetivoAula:'',
+        videos: '',
+        perguntas: ''
+    };
+
+    vm.listaVideosView = [];
+    vm.listaAdicionados = [];
+    vm.arrayPerguntas = [];
+
     vm.estruturaQuestao = {
-        "question": null,
-        "options":[ null, null, null, null],
-        "correct": 1
+        question: '',
+        options:[ '', '', '', ''],
+        correct: 1
+    };
+
+    vm.estruturaVideo = {
+        id : null,
+        video: null,
+        imagem : null,
+        titulo : null
     };
 
     function cleanQuestao(){
-        var q = {
+        var cleanEstrutura = {
             "question":"",
             "options":[ "", "", "", ""],
             "correct": 1
         };
 
-        vm.estruturaQuestao = q;
+        vm.estruturaQuestao = cleanEstrutura;
     }
 
     vm.numQuestao = 1;
@@ -79,6 +107,13 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         vm.stepPerguntas = "disabled";
         vm.stepFinalizar = "disabled";
 
+        vm.objectAula.disciplina = vm.disciplina;
+        vm.objectAula.conteudoGeral = vm.conteudoGeral;
+        vm.objectAula.conteudoEspecifico = vm.conteudoEspecifico;
+        vm.objectAula.objetivoAula = vm.objetivoAula;
+
+        console.log(vm.objectAula);
+
         vm.step1 = false;
         vm.step2 = true;
         vm.step3 = false;
@@ -92,6 +127,10 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         vm.stepPerguntas = "complete";
         vm.stepFinalizar = "disabled";
 
+        vm.objectAula.videos = vm.listaAdicionados;
+
+        console.log(vm.objectAula);
+
         vm.step1 = false;
         vm.step2 = false;
         vm.step3 = true;
@@ -104,28 +143,57 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         vm.stepPerguntas = "complete";
         vm.stepFinalizar = "active";
 
+        if( vm.arrayPerguntas.length < 1){
+            vm.arrayPerguntas.push(vm.estruturaQuestao);
+        }
+        
+        if(vm.arrayPerguntas.length >= 1){
+            vm.arrayPerguntas.push(vm.estruturaQuestao);
+        }
+
+        console.log(vm.arrayPerguntas);
+        
+        vm.objectAula.token = '';
+        vm.objectAula.perguntas = vm.arrayPerguntas;
+
+        console.log(vm.objectAula);
+
+        vm.objectAula.token = ((String)(Math.random().toFixed(10))).substring(2, 12);
+        vm.add();
+
         vm.step1 = false;
         vm.step2 = false;
         vm.step3 = false;
         vm.step4 = true;
     };
 
-    // vm.buscarVideos = function(value){
-    //     vm.viewVideos = true;
-    //     vm.listaVideosView = vm.listaVideos;
+    vm.adicionarVideo = function(video){
+        var contem = false;
+        $.each(vm.listaAdicionados, function(index, result) {
+            if(result.id == video.id) {
+                contem = true;
+            }    
+        });
 
-    // };
+        if(!contem){
+            vm.listaAdicionados.push(video);
+            vm.viewVideosAdd = false;
+            vm.viewVideosAdd = true;
+        }
+ 
+    };
 
-    vm.adicionarVideo = function(value){
-
-        vm.listaAdicionados.push(value);
-        vm.viewVideosAdd = false;
-        vm.viewVideosAdd = true;
+    vm.removerVideo = function(video){
+        $.each(vm.listaAdicionados, function(index, result) {
+            if(result.id == video.id) {
+                vm.listaAdicionados.splice(index, 1);
+            }    
+        });
     };
 
     vm.novaQuestao = function(){
         vm.numQuestao++;
-        parent.arrayPerguntas.questions.push(vm.estruturaQuestao);
+        vm.arrayPerguntas.push(vm.estruturaQuestao);
         cleanQuestao();
     };
 
@@ -137,6 +205,18 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         $location.path('/visualizarAulasProfessor');
     };
 
+    vm.redirectCriarAula = function(){
+        $route.reload(); 
+    };
+
+    vm.removeFrame = function(idFrame){
+        // $(idFrame).remove();
+
+        $(idFrame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
 
     var _apiKey = "AIzaSyCfkG-aD3kVrHHfgkklihC8MhbaMaUOiKY";
 
@@ -144,25 +224,40 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         vm.listaVideosView = [];
         youtubeFactory.getVideosFromSearchByParams({
             q: value.replace(/%20/g, "+"),
-            maxResults: "20",
+            maxResults: "10",
             key: _apiKey,
             order: "viewCount",
         }).then(function (_data) {
 
             _data.data.items.forEach(
                 function(element) {
-                vm.listaVideosView.push("https://www.youtube.com/embed/" + element.id.videoId);
+                var imagem = element.snippet.thumbnails.medium.url;
+                var linkVideo = "https://www.youtube.com/embed/" + element.id.videoId;
+                var title = element.snippet.title;
+                var id = element.id.videoId
+                var estrObject = {
+                    "imagem": imagem,
+                    "video": linkVideo,
+                    "titulo": title,
+                    "id": id
+                };
+                
+                vm.listaVideosView.push(estrObject);
             });
 
-            
             console.info("videos from search by q", _data);
         });
 
         vm.viewVideos = true;
-        // vm.listaVideosView = vm.listaVideos;
     };
-    
 
+    vm.logout = function(){
+        firebase.auth().signOut().then(function() {
+            console.log("success logout");
+        }, function(error) {
+            console.log("error logout");
+        });
+        $location.path('/home');
+    };
 
-    
 };

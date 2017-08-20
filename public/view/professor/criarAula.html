@@ -39,20 +39,20 @@
 
                 <div class="form-group">
                     <label class="control-label">Qual disciplina?</label>
-                    <input class="form-control" name="disciplina" type="text">
+                    <input class="form-control" name="disciplina" type="text" ng-model="disciplina">
                 </div>
                 <div class="form-group">
                     <label class="control-label" >Qual conteúdo geral?</label>
-                    <input class="form-control" name="contGeral"  type="text">    
+                    <input class="form-control" name="contGeral"  type="text" ng-model="conteudoGeral">    
                 </div>
                 <div class="form-group">
                     <label class="control-label" >Qual conteúdo específico?</label>
-                    <input class="form-control"  name="contEspec" type="text">    
+                    <input class="form-control"  name="contEspec" type="text" ng-model="conteudoEspecifico">    
                 </div>
                 <div class="form-group">
                     <label class="control-label">Escreva qual objetivo da aula para seu aluno</label>
                     <div>
-                        <textarea class="form-control" rows="3" name="objetivo" type="text"></textarea>
+                        <textarea class="form-control" rows="3" name="objetivo" type="text" ng-model="objetivoAula"></textarea>
                     </div>
                 </div>
                 <div class="text-right" style="margin-top: 30px">
@@ -83,10 +83,11 @@
              <div ng-show="viewVideos"> 
         
                 <div class="container testimonial-group" style="background-color: transparent; margin-top:50px;">
-                    <div class="row text-center" id="style-3" style="height: 300px">
+                    <div class="row text-center" id="style-3" style="height: 350px">
                         <div class="col-xs-4" ng-repeat="video in listaVideosView">
-                            <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" data-toggle="modal" data-target="#videoModal">
-                                <iframe width="310" height="200" ng-src="{{trustSrc(video)}}" frameborder="0" allowfullscreen></iframe>
+                            <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" data-toggle="modal" data-target="#modal{{video.id}}">
+                                <p ng-bind="video.titulo.substr(0,20)"></p>
+                                <img width="310" height="200" src="{{video.imagem}}">
                             </div>
                             <button class="btn btn-primary" ng-click="adicionarVideo(video)">Adicionar</button>
                         </div>
@@ -102,18 +103,18 @@
                 </div>
                 
                 <div class="container testimonial-group" style="background-color: white;">
-                    <div class="row" id="style-3" style="height: 200px;padding: 20px;">
+                    <div class="row" id="style-3" style="height: 210px;padding: 20px;">
                         <div class="col-xs-2" ng-repeat="video in listaAdicionados">
                             <div class="text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" data-toggle="modal" data-target="#videoModal">
-                                <iframe width="150" height="100" ng-src="{{trustSrc(video)}}" frameborder="0" allowfullscreen></iframe>
+                                <img width="150" height="100" src="{{video.imagem}}">
                             </div>
                             <div class="text-center">
-                                <button class="btn btn-danger">remover</button>
+                                <button class="btn btn-danger" style="margin-bottom: 10px" ng-click="removerVideo(video)">remover</button>
                             </div>  
                         </div>
                     </div>
                 </div>
-                <div class="text-right" style="margin-top: 30px">
+                <div class="text-right" style="margin-top: 30px;">
                     <button class="btn btn-success" ng-click="avancarStep2()">Próximo &rarr;</button>
                 </div>
                 
@@ -177,11 +178,11 @@
 
         <div ng-show="step4">
             <div class="text-center" style="margin-top: 50px">
-                <h2>Aula criada! O Token dela é 07082017123</h2>
+                <h2>Aula criada! O Token dela é {{objectAula.token}}</h2>
             </div>
         </div>
 
-        <!-- Modal Video-->
+        <!-- Modal Questões-->
         <div class="modal fade" id="questionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
         <div class="modal-dialog" role="document" style="width: 850px">
             <div class="modal-content">
@@ -201,6 +202,28 @@
             </div>
         </div>
         </div>
+
+        <!-- Modal Videos-->
+        <div ng-repeat="video in listaVideosView">
+             <div class="modal fade" id="modal{{video.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+            <div class="modal-dialog" role="document" style="width: 1043px">
+                <div class="modal-content">
+                <div class="modal-header" ng-init="idFrame = '.id' +  video.id">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="removeFrame(idFrame)"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">  
+                    <iframe id="{{idFrame}}" width="1000" height="600" ng-src="{{trustSrc(video.video)}}" frameborder="0" allowfullscreen></iframe> 
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+       
+
+
     
 
 </section>

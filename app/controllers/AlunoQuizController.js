@@ -1,6 +1,7 @@
-module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $http, $sce){
+module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $http, $sce, $location, $localStorage){
     
     var vm = $scope;
+    var storege = $localStorage;
     $rootScope.navActive = true;
     
     vm.name = $filter("uppercase")(configValue.appName);
@@ -8,6 +9,10 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.clients = [];
     vm.page = routeInfo.routeName;
     vm.navClass = routeInfo.navClass;
+
+    vm.aula = storege.aula;
+    vm.token = storege.token;
+    vm.aluno = storege.aluno;
 
     $rootScope.navActive = true;
 
@@ -17,6 +22,7 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.progressoQuiz = 0;
     vm.resposta = null;
     vm.respostas = [];
+    vm.respostasCorretas = [];
     vm.tamanhoQuiz = null;
 
     vm.btProximo = true;
@@ -26,41 +32,37 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
 
     var indiceQuiz = 0;
 
-    var perguntas = {
-      "questions":[
-        {
-          "question":"As dez classes gramaticais são fundamentais para a compreensão da norma culta da língua portuguesa. Dessa forma, qual é a ordem correta das classes em uma oração?",
-          "options":[ "Artigo, substantivo, adjetivo, preposição, numeral, pronome, verbo, conjunção, advérbio e interjeição.",
-                      "Artigo, substantivo, adjetivo, numeral, pronome, verbo, advérbio, preposição, conjunção e interjeição.",
-                      "Preposição, substantivo, adjetivo, pronome, verbo, numeral, artigo, conjunção, interjeição e advérbio.",
-                      "Interjeição, adjetivo, substantivo, pronome, verbo, artigo, numeral, advérbio, preposição e conjunção."  ],
-          "correct": 1
-        },
-        {
-          "question":"No refrão da música 'Cálice', do cantor e compositor Chico Buarque, 'Pai, afasta de MIM ESSE cálice...', os termos destacados exercem, morfologicamente, a função de pronomes. Quais, respectivamente?",
-          "options":[ "Pronome pessoal do caso oblíquo e pronome demonstrativo.",
-                      "Pronome indefinido e pronome demonstrativo.",
-                      "Pronome pessoal do caso reto e pronome possessivo.",
-                      "Pronome pessoal do caso reto e pronome demonstrativo."  ],
-          "correct": 2
-        }            
-      ]
-    };
+    var perguntas = vm.aula.perguntas;
+    questionRamdom();
+
+    function questionRamdom(){
+      $.each(perguntas, function(index, result) {
+          var random = Math.floor(Math.random() * 4);
+          var valorOptions = result.options[random];
+          perguntas[index].options[random] = result.options[0];
+          perguntas[index].options[0] = valorOptions;
+          vm.respostasCorretas.push(random + 1);
+        });
+    }
+
+    function montarPerguntas(){
+      var tamnhoArrayPerguntas = vm.aula.length;
+    }
 
     function inicio(){
       //verifica tamanho quiz
-      vm.tamanhoQuiz = perguntas.questions.length;
+      vm.tamanhoQuiz = perguntas.length;
       vm.progressoQuiz = 0;
     }
 
     function carregaPerguntas(){
 
       vm.estruturaQuiz = {
-        "question": perguntas.questions[indiceQuiz].question,
-        "option1": perguntas.questions[indiceQuiz].options[0],
-        "option2": perguntas.questions[indiceQuiz].options[1],
-        "option3": perguntas.questions[indiceQuiz].options[2],
-        "option4": perguntas.questions[indiceQuiz].options[3]
+        "question": perguntas[indiceQuiz].question,
+        "option1": perguntas[indiceQuiz].options[0],
+        "option2": perguntas[indiceQuiz].options[1],
+        "option3": perguntas[indiceQuiz].options[2],
+        "option4": perguntas[indiceQuiz].options[3]
       };
       
       indiceQuiz++;
@@ -71,8 +73,8 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
 
     vm.proximaPergunta = function(){
 
-      vm.respostas.push(vm.resposta);
       if(vm.tamanhoQuiz > indiceQuiz){
+        vm.respostas.push(vm.resposta);
         vm.progressoQuiz = (String)((indiceQuiz/vm.tamanhoQuiz)*100)+'%';
         carregaPerguntas();
         vm.btProximoQuiz = false;
@@ -83,11 +85,33 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
           vm.btFinalizar = true;
         }
       }else{
+        if(!vm.fimQuiz){
+          vm.respostas.push(vm.resposta);
+          gerarEstatistica();
+        } 
         vm.viewResultado = true;
       }
 
-       
     };
+
+    var acertos = 0;
+    var erros = 0;
+    
+
+    function gerarEstatistica(){
+      vm.resultadoRespostas = [];
+      $.each(vm.respostas, function(index, result) {
+          if(vm.respostas[index] === vm.respostasCorretas[index]){
+            vm.resultadoRespostas.push(true);
+            acertos++;
+          }else{
+            vm.resultadoRespostas.push(false);
+            erros++;
+          }
+      });
+      console.log(vm.resultadoRespostas);
+      gerarGrafico(acertos, erros)
+    }
 
     vm.clickResposta = function(value){
       vm.resposta = value;
@@ -128,5 +152,50 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
         vm.resp3 = false;
         vm.resp4 = false;
     };
+
+    vm.trustSrc = function(src) {
+        return $sce.trustAsResourceUrl(src);
+    };
+
+
+    vm.logout = function(){
+        $location.path('/home');
+    };
+
+
+    function gerarGrafico(acertos, erros){
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Acertos', acertos],
+          ['Erros', erros]
+        ]);
+
+        // Set chart options
+        var options = {'width':800,
+                       'height':600,
+                       'backgroundColor': 'none',
+                       'fontSize': 15,
+                       'is3D':true};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    }
+    
 
 };

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "angular-youtube-api-factory": "^0.6.2",
+    "angularfire": "^2.3.0",
     "itemslide": "^1.4.0"
   }
 }

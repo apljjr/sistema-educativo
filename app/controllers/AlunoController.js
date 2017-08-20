@@ -1,6 +1,14 @@
-module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $location){
+module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $location, $localStorage, $sce){
     
     var vm = $scope;
+    var parent = $rootScope;
+    var storege = $localStorage;
+
+    vm.aula = storege.aula;
+    vm.token = storege.token;
+    vm.aluno = storege.aluno;
+    console.log(vm.aula);
+
     $rootScope.navActive = true;
     
     vm.name = $filter("uppercase")(configValue.appName);
@@ -13,19 +21,19 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
 
     vm.activeNavAluno = true;
 
-
-    // var listClient = function(){
-    //     clientAPIService.getClient($routeParams.id).success(function(data,status){
-    //         //console.log(data);
-    //         //console.log(status);
-    //         $scope.client = data;
-    //     });
-    // };
-
-    // listClient();
-
     vm.iniciarQuiz = function(){
         $location.path('/quizAluno');
     };
 
+    vm.logout = function(){
+        $location.path('/home');
+    };
+
+    vm.trustSrc = function(src) {
+        return $sce.trustAsResourceUrl(src);
+    };
+
+    vm.logout = function(){
+        $location.path('/home');
+    };
 };

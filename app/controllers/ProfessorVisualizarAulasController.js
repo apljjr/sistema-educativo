@@ -1,7 +1,8 @@
-module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo,$sce){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo,$sce, $firebase, $timeout,$firebaseArray, $localStorage){
     
     var vm = $scope;
     var root = $rootScope;
+    var storege = $localStorage;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -29,78 +30,44 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
 
     vm.arrayAulas = [];
 
-    vm.objectAula1 = {
-        'token': '07082017123',
-        'disciplina':'Português',
-        'conteudoGeral': 'Ortográfia das palavras',
-        'conteudoEspecifico': 'Acentuação',
-        'objetivoAula':'A aula tem por objetivo melhorar os conhecimento da nova ortografia da língua portuguesa',
-        'videos': [
-            "https://www.youtube.com/embed/49P7uTXpPOI",
-            "https://www.youtube.com/embed/Sy_LUnePfRE",
-            "https://www.youtube.com/embed/zpQEwWiZF7Y",
-            "https://www.youtube.com/embed/Ks90DtZUso4"    
-        ],
-        'perguntas':{
-        "questions":[
-            {
-            "question":"As novas regras de acentuação trouxeram algumas mudanças no acento de algumas palavras. Assinale a alternativa que faz parte da mudança do novo acordo:",
-            "options":[ "Ditongos OI e EI serão acentuados somente nas palavras paroxítonas.",
-                        "Não acentuamos mais as oxítonas terminadas em vogais.",
-                        "Ditongos abertos nas palavras proparoxítonas não são mais acentuados.",
-                        "As letras I e U que vierem após um ditongo nas palavras paroxítonas não são mais acentuadas."  ],
-            "correct": 4
-            },
-            {
-            "question":"Assinale a alternativa que tenha palavras com a mesma regra de acentuação:",
-            "options":[ "Pá, compôs, herói, vácuo, sótão, estética.",
-                        "Louvável, álbum, revólver, táxi, éden.",
-                        "Repórter, louvável, álbum, fotógrafo, farmácia.",
-                        "Sabiá, jiló, café, sótão, órfão, órgão."  ],
-            "correct": 2
-            }            
-        ]
-        }
+    if (!firebase.apps.length) {
+        parent.config = {
+            apiKey: 'AIzaSyCBncy_zTg4cSEaOoy0FfRVZYjVV5c1LOQ',
+            authDomain: 'eduq-b0d87.firebaseapp.com',
+            databaseURL: 'https://eduq-b0d87.firebaseio.com',
+        };
+
+        firebase.initializeApp(parent.config);
+    }
+
+    var ref = firebase.database().ref("aulas");
+
+    vm.loading= true;
+    $firebaseArray(ref.orderByChild("user").equalTo(storege.user)).$loaded().then(function(data){
+        vm.arrayAulas = data;
+        console.log(data);
+        vm.loading= false;
+    }).catch(function(error){
+        vm.error = "Problemas nas consultas das aulas";
+    });
+
+    vm.removeAula = function(id){
+        ref.child(id).remove().then(function(result){
+            console.log("Excluido com sucesso!");
+        }).catch(function(error){
+            console.log("Problemas na deleção!");
+        });
     };
 
-    vm.objectAula2 = {
-        'token': '07082017321',
-        'disciplina':'Português',
-        'conteudoGeral': 'Gramática',
-        'conteudoEspecifico': 'Verbo',
-        'objetivoAula':'A aula tem por objetivo melhorar os conhecimento da nova ortografia da língua portuguesa',
-        'videos': [
-            "https://www.youtube.com/embed/49P7uTXpPOI",
-            "https://www.youtube.com/embed/Sy_LUnePfRE",
-            "https://www.youtube.com/embed/zpQEwWiZF7Y",
-            "https://www.youtube.com/embed/Ks90DtZUso4"    
-        ],
-        'perguntas':{
-        "questions":[
-            {
-            "question":"As novas regras de acentuação trouxeram algumas mudanças no acento de algumas palavras. Assinale a alternativa que faz parte da mudança do novo acordo:",
-            "options":[ "Ditongos OI e EI serão acentuados somente nas palavras paroxítonas.",
-                        "Não acentuamos mais as oxítonas terminadas em vogais.",
-                        "Ditongos abertos nas palavras proparoxítonas não são mais acentuados.",
-                        "As letras I e U que vierem após um ditongo nas palavras paroxítonas não são mais acentuadas."  ],
-            "correct": 4
-            },
-            {
-            "question":"Assinale a alternativa que tenha palavras com a mesma regra de acentuação:",
-            "options":[ "Pá, compôs, herói, vácuo, sótão, estética.",
-                        "Louvável, álbum, revólver, táxi, éden.",
-                        "Repórter, louvável, álbum, fotógrafo, farmácia.",
-                        "Sabiá, jiló, café, sótão, órfão, órgão."  ],
-            "correct": 2
-            }            
-        ]
-        }
+    
+
+    vm.logout = function(){
+        firebase.auth().signOut().then(function() {
+            console.log("success logout");
+        }, function(error) {
+            console.log("error logout");
+        });
+        $location.path('/home');
     };
-
-    vm.arrayAulas.push(vm.objectAula1);
-    vm.arrayAulas.push(vm.objectAula2);
-
-
-
 
 };

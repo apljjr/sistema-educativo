@@ -1,10 +1,19 @@
 <header ng-include="'view/nav.html'"></header>
 <section class="container">
-    <div class="jumbotron row colorDefault">
-        
+
+    <div class="showbox" ng-show=loading>
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+            </svg>
+        </div>
+    </div>
+    <div class="jumbotron row colorDefault" ng-show=!loading>
         <div style="margin-bottom: 30px">
             <h2>Painel de Aulas</h2>
         </div>
+        <p ng-show="arrayAulas.length === 0">Você não tem aulas cadastradas, crie uma agora mesmo acessando o menu criar aula</p>
+        
         <div class="panel panel-warning" ng-repeat="aula in arrayAulas">
             <div class="panel-heading" style="height: 40px;">
                 <div class="col-md-10">
@@ -16,37 +25,63 @@
                
             </div>
             <div class="panel-body">
-                <p>Token: {{aula.token}}</p>
-                <p>{{aula.conteudoEspecifico}}</p>
-                <p>{{aula.objetivoAula}}</p>
+                <p style="font-weight: bold">Token: {{aula.token}}</p>
+                <p>Conteúdo Especifico da Aula: {{aula.conteudoEspecifico}}</p>
+                <p>Objetivo da Aula: {{aula.objetivoAula}}</p>
 
-                <labe class="control-label">Videos:</labe>
+                <div style="margin-bottom: 15px"><labe class="control-label">Videos:</labe></div>
                 <div class="well">
                     <div class="container testimonial-group" >
-                        <div class="row" id="style-3" style="height: 180px;padding: 20px;">
+                        <div class="row" id="style-3" style="height: 200px;padding: 20px;">
                             <div class="col-xs-3" ng-repeat="video in aula.videos">
-                                <div class="text-center grow1" style="margin-top:0px; cursor: pointer;" data-toggle="modal" data-target="#videoModal">
-                                    <iframe width="220" height="130" ng-src="{{trustSrc(video)}}" frameborder="0" allowfullscreen></iframe>
+                                <div class="text-center grow1" style="margin-top:0px; cursor: pointer;" data-toggle="modal" data-target="#modal{{video.id}}">
+                                    <div><span ng-bind="video.titulo.substr(0,20)"></span></div>
+                                    <img width="220" height="130" src="{{video.imagem}}">
+                                    <!-- <iframe width="220" height="130" ng-src="{{trustSrc(video)}}" frameborder="0" allowfullscreen></iframe> -->
                                 </div> 
                             </div>
                         </div>
                     </div>
                 </div>
-                <labe class="control-label">Perguntas:</labe>
-                <div class="well" >
-                    <div class="list-group" ng-repeat="question in aula.perguntas.questions" > 
-                        <div class="list-group-item" >
-                            <p class="list-group-item-heading">{{question.question}}</p>
-                            <h4 class="list-group-item-text">{{question.options[0]}}</h4>
-                            <h4 class="list-group-item-text">{{question.options[1]}}</h4>
-                            <h4 class="list-group-item-text">{{question.options[2]}}</h4>
-                            <h4 class="list-group-item-text">{{question.options[3]}}</h4>
+                <!-- Modal Videos-->
+                <div ng-repeat="video in aula.videos">
+                        <div class="modal fade" id="modal{{video.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                    <div class="modal-dialog" role="document" style="width: 1043px">
+                        <div class="modal-content">
+                        <div class="modal-header" ng-init="idFrame = '.id' +  video.id">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="removeFrame(idFrame)"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">  
+                            <iframe id="{{idFrame}}" width="1000" height="600" ng-src="{{trustSrc(video.video)}}" frameborder="0" allowfullscreen></iframe> 
+                        </div>
+                        <div class="modal-footer" style="text-align: center">
+                        
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px"><labe class="control-label">Perguntas:</labe></div>
+                <div class="well" ng-repeat="question in aula.perguntas">
+                    <div class="list-group"> 
+                        <div>
+                            <div style="margin-bottom: 30px"><h2 class="list-group-item-heading">{{question.question}}</h2></div>
+                            <h4 class="list-group-item-text" style="color:limegreen;font-weight: bold">1) {{question.options[0]}}</h4>
+                            <h4 class="list-group-item-text" style="color:salmon;font-weight: bold">2) {{question.options[1]}}</h4>
+                            <h4 class="list-group-item-text" style="color:salmon;font-weight: bold">3) {{question.options[2]}}</h4>
+                            <h4 class="list-group-item-text" style="color:salmon;font-weight: bold">4) {{question.options[3]}}</h4>
                         </div>
                     </div>
                 </div>
 
                  <div class="text-center" style="margin-top: 30px">
-                    <button class="btn btn-danger" ng-click="">Apagar aula</button>
+                    <button class="btn btn-danger" ng-click="flagDelete = true" ng-show="!flagDelete">Apagar Aula</button>
+                    <div>
+                        <div style="margin-bottom: 5px" ng-show="flagDelete">Tem certeza?</div>
+                        <button class="btn btn-danger" ng-click="removeAula(aula.$id)" ng-show="flagDelete">Sim</button>
+                        <button class="btn btn-danger" ng-click="flagDelete = false" ng-show="flagDelete">Não</button>
+                    </div>
+                   
                 </div>
                 
             </div>

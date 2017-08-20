@@ -1,6 +1,7 @@
 require('angular');
 require('angular-route');
 require('./locale/angular-locale_pt-br');
+require('angularfire');
 
 var routeConfig = require('./config/routeConfig');
 var configConstant = require('./config/configConstant');
@@ -18,7 +19,7 @@ var ProfessorVisualizarAulasController = require('./controllers/ProfessorVisuali
 var maskTel = require('./directives/maskTel');
 var alertMsg = require('./directives/alertMsg');
 
-angular.module('app',['ngRoute', 'jtt_youtube']);
+angular.module('app',['ngRoute', 'jtt_youtube', 'firebase', 'ngStorage']);
 angular.module('app').constant('configConstant',configValue);
 angular.module('app').value('configValue',configValue);
 angular.module('app').provider('bonusGenerator',[bonusGenerator]);
@@ -30,10 +31,10 @@ angular.module('app').factory('clientAPIService',['$http','configValue',clientAP
 angular.module('app').service('clientTestService',['$http','configValue',clientTestService]);
 angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
-angular.module('app').controller('MainController',['$scope','$rootScope','$filter','configValue','routeInfo','$location','$timeout',MainController]);
+angular.module('app').controller('MainController',['$scope','$rootScope','$filter','configValue','routeInfo','$location','$timeout','$firebase','$localStorage','$firebaseObject' ,MainController]);
 angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
-angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location',AlunoController]);
-angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce',AlunoQuizController]);
-angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce','youtubeFactory',ProfessorCriarAulaController]);
-angular.module('app').controller('ProfessorVisualizarAulasController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce',ProfessorVisualizarAulasController]);
+angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location','$localStorage','$sce',AlunoController]);
+angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce','$location','$localStorage',AlunoQuizController]);
+angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce','youtubeFactory', '$firebase','$localStorage','$route',ProfessorCriarAulaController]);
+angular.module('app').controller('ProfessorVisualizarAulasController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce', '$firebase','$timeout','$firebaseArray','$localStorage',ProfessorVisualizarAulasController]);
 
