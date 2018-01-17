@@ -629,9 +629,7 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
 
         if( vm.arrayPerguntas.length < 1){
             vm.arrayPerguntas.push(vm.estruturaQuestao);
-        }
-        
-        if(vm.arrayPerguntas.length >= 1){
+        } else if(vm.arrayPerguntas.length >= 1){
             vm.arrayPerguntas.push(vm.estruturaQuestao);
         }
 
