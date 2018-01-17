@@ -1,147 +1,159 @@
 <header ng-include="'view/nav.html'"></header>
 <section>
-<section class="container">
-    <div>  
+    <section class="container">
+        <div>
 
-        <!-- Botões Icons Professor e Aluno-->
-        <div class="row" style="margin-top:30px">
-        <div class="col-xs-6">
-            <img src="../img/cursosonline.png" width="100%" style="position:relative; right:80px">
+            <!-- Botões Icons Professor e Aluno-->
+            <div class="row" style="margin-top:30px">
+                <div class="col-xs-12 col-sm-12 col-md-6 text-center">
+                    <img src="../img/cursosonline.png" width="100%" >
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6">
+                    <div class="row fundoTransp-div ">
+                        <div class="col-xs-7 text-center">
+                            <h1 style="color:#2774e3">Deixe seus alunos com mais vontade de aprender, crie aulas rápidas!</h1>
+                        </div>
+                        <div class="col-xs-5 colorProfessor text-center">
+                            <img class="setaDireita" src="../img/seta-amarela-direita.png">
+                            <div>
+                                <i class="fa fa-user-circle grow" aria-hidden="true" data-toggle="modal" data-target="#professorModal"
+                                    style="font-size:150px; padding-top:15px"></i>
+                            </div>
+                            <div>
+                                <span style="font-size:40px">Professor</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row fundoTransp-div " style="margin-top:30px">
+                        <div class="col-xs-5 colorAluno text-center">
+                            <img class="setaEsquerda" src="../img/seta-amarela-png.png">
+                            <div>
+                                <i class="fa fa-user-circle grow" aria-hidden="true" data-toggle="modal" data-target="#alunoModal"
+                                    style="font-size:150px; padding-top:15px"></i>
+                            </div>
+                            <div>
+                                <span style="font-size:40px">Aluno</span>
+                            </div>
+                        </div>
+                        <div class="col-xs-7 text-center">
+                            <h1 style="color:#65b509">Uma nova forma de aprender o conteúdo de suas aulas, aproveite!</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 50px">
+                <h1 class="colorDefault">
+                    EduQ é uma plataforma de ensino que tem o objetivo de contribuir na elaboração de aulas mais interativas e auxiliar no aumento
+                    do feedback entre professor e aluno
+                </h1>
+            </div>
+
+
+            <!-- Modal Login Professor-->
+            <div class="modal fade" id="professorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" ng-click="closeModalProfessor()" aria-label="Close" ng-click="viewLogin()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h1 ng-if="login" class="modal-title" id="myModalLabel" style="text-align: center">Acesso EduQ</h1>
+                            <h1 ng-if="cadastrar" class="modal-title" id="myModalLabel" style="text-align: center">Cadastro EduQ</h1>
+                        </div>
+                        <div class="modal-body paddingLeftRight100px">
+
+                            <!--Conteudo acesso-->
+                            <div ng-if="login">
+                                <div class="form-group">
+                                    <label class="control-label">Usuário</label>
+                                    <input class="form-control" type="text" id="userProfessor">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Senha</label>
+                                    <input class="form-control" type="password" id="passProfessor">
+                                </div>
+                            </div>
+
+                            <div ng-show="alertaLoginProfessor" class="alert alert-dismissible alert-danger text-center">
+                                <p>Dados incorretos, tente novamente.</p>
+                            </div>
+
+
+                            <!--Conteudo cadastro-->
+                            <div ng-if="cadastrar">
+                                <div class="form-group">
+                                    <label class="control-label">Nome completo</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Nome de usuário</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">E-mail</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Senha</label>
+                                    <input class="form-control" type="password">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Confirmação de senha</label>
+                                    <input class="form-control" type="password">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer paddingLeftRight100px">
+
+                            <!--Conteudo acesso-->
+                            <div ng-if="login">
+                                <a class="linkCadastrar" href="" ng-click="viewCadastrar()">Não é cadastrado? Se cadastre agora!</a>
+                                <button type="button" class="btn btn-primary" ng-click="viewProfessor()">Acessar</button>
+                            </div>
+
+                            <!--Conteudo cadastro-->
+                            <div ng-if="cadastrar" style="text-align: right">
+                                <button type="button" class="btn btn-primary" ng-click="viewLogin()">Cadastrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Login Aluno-->
+            <div class="modal fade" id="alunoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" ng-click="closeModalAluno()" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h1 class="modal-title" id="myModalLabel" style="text-align: center">Acesso EduQ</h1>
+                        </div>
+                        <div class="modal-body paddingLeftRight100px">
+
+                            <div class="form-group">
+                                <label class="control-label">Insira seu nome</label>
+                                <input class="form-control" id="nameAluno" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Insira o token da aula</label>
+                                <input class="form-control" id="tokenAluno" type="text">
+                            </div>
+
+                            <div ng-show="alertaTokenAluno" class="alert alert-dismissible alert-danger text-center">
+                                <p>Dados incorretos, tente novamente.</p>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer paddingLeftRight100px" style="text-align: center">
+                            <button type="button" class="btn btn-primary" ng-click="viewAluno()">Acessar Aula</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-6" >
-            <div class="row fundoTransp-div ">
-            <div class="col-xs-7 text-center">
-                <h1 style="color:#2774e3">Deixe seus alunos com mais vontade de aprender, crie aulas rápidas!</h1>
-            </div>
-            <div class="col-xs-5 colorProfessor text-center">
-                <img class="setaDireita" src="../img/seta-amarela-direita.png">
-                <div><i class="fa fa-user-circle grow" aria-hidden="true" data-toggle="modal" data-target="#professorModal"
-                style="font-size:150px; padding-top:15px"></i></div>
-                <div><span style="font-size:40px">Professor</span></div>            
-            </div>
-            </div>
-            <div class="row fundoTransp-div " style="margin-top:30px">
-            <div class="col-xs-5 colorAluno text-center">
-                <img class="setaEsquerda" src="../img/seta-amarela-png.png">
-                <div><i class="fa fa-user-circle grow" aria-hidden="true" data-toggle="modal" data-target="#alunoModal"
-                style="font-size:150px; padding-top:15px"></i></div>
-                <div><span style="font-size:40px">Aluno</span></div>             
-            </div>
-            <div class="col-xs-7 text-center">
-                <h1 style="color:#65b509">Uma nova forma de aprender o conteúdo de suas aulas, aproveite!</h1>
-            </div>
-            </div>
-        </div>
-        </div>
-
-        <div class="text-center" style="margin-top: 50px">
-            <h1 class="colorDefault">
-            EduQ é uma plataforma de ensino que tem o objetivo de contribuir na elaboração 
-            de aulas mais interativas e auxiliar no aumento do feedback entre professor e aluno
-            </h1>
-        </div>
-        
-
-        <!-- Modal Login Professor-->
-        <div class="modal fade" id="professorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" ng-click="closeModalProfessor()" aria-label="Close" ng-click="viewLogin()"><span aria-hidden="true">&times;</span></button>
-                <h1 ng-if="login" class="modal-title" id="myModalLabel" style="text-align: center">Acesso EduQ</h1>
-                <h1 ng-if="cadastrar" class="modal-title" id="myModalLabel" style="text-align: center">Cadastro EduQ</h1>
-            </div>
-            <div class="modal-body paddingLeftRight100px">
-                
-                <!--Conteudo acesso-->
-                <div ng-if="login">
-                <div class="form-group"> 
-                    <label class="control-label">Usuário</label>
-                    <input class="form-control" type="text" id="userProfessor">
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Senha</label>
-                    <input class="form-control" type="password" id="passProfessor">
-                </div>
-                </div>
-
-                <div ng-show="alertaLoginProfessor" class="alert alert-dismissible alert-danger text-center">
-                    <p>Dados incorretos, tente novamente.</p>
-                </div>
-                
-
-                <!--Conteudo cadastro-->
-                <div ng-if="cadastrar">
-                <div class="form-group"> 
-                    <label class="control-label">Nome completo</label>
-                    <input class="form-control" type="text">
-                </div>
-                <div class="form-group"> 
-                    <label class="control-label">Nome de usuário</label>
-                    <input class="form-control" type="text">
-                </div>
-                <div class="form-group"> 
-                    <label class="control-label">E-mail</label>
-                    <input class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Senha</label>
-                    <input class="form-control" type="password">
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Confirmação de senha</label>
-                    <input class="form-control" type="password">
-                </div>
-                </div>
-                
-            </div>
-            <div class="modal-footer paddingLeftRight100px">
-
-                <!--Conteudo acesso-->
-                <div ng-if="login">
-                    <a class="linkCadastrar" href="" ng-click="viewCadastrar()">Não é cadastrado? Se cadastre agora!</a>
-                    <button type="button" class="btn btn-primary" ng-click="viewProfessor()">Acessar</button>
-                </div>
-
-                <!--Conteudo cadastro-->
-                <div ng-if="cadastrar" style="text-align: right">
-                    <button type="button" class="btn btn-primary" ng-click="viewLogin()">Cadastrar</button>
-                </div>
-            </div>
-            </div>
-        </div>
-        </div>
-
-        <!-- Modal Login Aluno-->
-        <div class="modal fade" id="alunoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" ng-click="closeModalAluno()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h1 class="modal-title" id="myModalLabel" style="text-align: center">Acesso EduQ</h1>
-            </div>
-            <div class="modal-body paddingLeftRight100px">
-                
-                <div class="form-group"> 
-                    <label class="control-label">Insira seu nome</label>
-                    <input class="form-control" id="nameAluno" type="text">
-                </div>
-                <div class="form-group"> 
-                    <label class="control-label">Insira o token da aula</label>
-                    <input class="form-control" id="tokenAluno" type="text">
-                </div>
-
-                <div ng-show="alertaTokenAluno" class="alert alert-dismissible alert-danger text-center">
-                    <p>Dados incorretos, tente novamente.</p>
-                </div>
-                
-            </div>
-            <div class="modal-footer paddingLeftRight100px" style="text-align: center">
-                <button type="button" class="btn btn-primary" ng-click="viewAluno()">Acessar Aula</button>
-            </div>
-            </div>
-        </div>
-        </div>
-    </div>
-</section>
+    </section>
 </section>
