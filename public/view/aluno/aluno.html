@@ -1,8 +1,8 @@
 <header ng-include="'view/nav.html'"></header>
 <section class="container">
-    <div class="jumbotron">
+    <div class="jumbotron fundoTransp-div" style="border-radius: 50px; margin-top: 30px">
 
-        <h2 class="text-center colorDefault" >
+        <h2 class="text-center colorDefault" style="color: black">
             Aluno, assista os vídeos selecionados pelo seu professor para depois começar o Quiz!
         </h2>
         {{vm.aula}}
@@ -43,3 +43,17 @@
     
     </div>
 </section>
+
+<style>
+        
+    body { 
+        background-image: url(../img/fundo_aluno1.png) ;
+        background-position: center center;
+        background-repeat:  no-repeat;
+        background-attachment: fixed;
+        background-size:  cover;
+        background-color: #999;
+
+
+    }
+</style>
