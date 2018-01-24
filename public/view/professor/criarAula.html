@@ -1,61 +1,62 @@
 <header ng-include="'view/nav.html'"></header>
 <section class="container">
-    <div class="jumbotron row colorDefault">
 
-        <div class="row bs-wizard" style="border-bottom:0;">
-            <!-- options: complete - active - disabled -->
-            <div class="col-xs-3 bs-wizard-step" ng-class="stepDadosGerais">
-                <div class="text-center bs-wizard-stepnum">Dados Gerais</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <a href="#" class="bs-wizard-dot"></a>
-            </div>
-            
-            <div class="col-xs-3 bs-wizard-step" ng-class="stepVideos"><!-- complete -->
-                <div class="text-center bs-wizard-stepnum">Selecionar vídeos</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <a href="#" class="bs-wizard-dot"></a>
-            </div>
-            
-            <div class="col-xs-3 bs-wizard-step" ng-class="stepPerguntas"><!-- complete -->
-                <div class="text-center bs-wizard-stepnum">Inserir perguntas</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <a href="#" class="bs-wizard-dot"></a>
-            </div>
-            
-            <div class="col-xs-3 bs-wizard-step" ng-class="stepFinalizar"><!-- active -->
-                <div class="text-center bs-wizard-stepnum">Finalizar</div>
-                <div class="progress"><div class="progress-bar"></div></div>
-                <a href="#" class="bs-wizard-dot"></a>
-            </div>
-        </div>
+    <div class="jumbotron row fundoTransp-div" style="padding-top: 22px; padding-bottom: 0px; border-radius: 50px;">
+            <div class="row bs-wizard" style="border-bottom:0;">
+                    <!-- options: complete - active - disabled -->
+                    <div class="col-xs-3 bs-wizard-step" ng-class="stepDadosGerais">
+                        <div class="text-center bs-wizard-stepnum">Dados Gerais</div>
+                        <div class="progress"><div class="progress-bar"></div></div>
+                        <a href="#" class="bs-wizard-dot"></a>
+                    </div>
+                    
+                    <div class="col-xs-3 bs-wizard-step" ng-class="stepVideos"><!-- complete -->
+                        <div class="text-center bs-wizard-stepnum">Selecionar vídeos</div>
+                        <div class="progress"><div class="progress-bar"></div></div>
+                        <a href="#" class="bs-wizard-dot"></a>
+                    </div>
+                    
+                    <div class="col-xs-3 bs-wizard-step" ng-class="stepPerguntas"><!-- complete -->
+                        <div class="text-center bs-wizard-stepnum">Inserir perguntas</div>
+                        <div class="progress"><div class="progress-bar"></div></div>
+                        <a href="#" class="bs-wizard-dot"></a>
+                    </div>
+                    
+                    <div class="col-xs-3 bs-wizard-step" ng-class="stepFinalizar"><!-- active -->
+                        <div class="text-center bs-wizard-stepnum">Finalizar</div>
+                        <div class="progress"><div class="progress-bar"></div></div>
+                        <a href="#" class="bs-wizard-dot"></a>
+                    </div>
+                </div>
+    </div>
+
+        
+
+    <div class="jumbotron row fundoTransp-div" style="border-radius: 50px; padding-bottom: 10px">
 
         <!-- Dados gerais sobre a aula -->
         <div ng-show="step1">
-            <form name="formDadosGerais" class="col-sm-8 col-sm-offset-2">
+            <form name="formDadosGerais" >
 
-                <div class="row text-center" style="margin-bottom: 20px; margin-top: -20px">
-                    <h2>Dados gerais sobre a aula</h2>
+                <div class="row text-center" style="margin-bottom: 20px; margin-top: -40px">
+                    <h2 style="color: black" >O primeiro passo é informar sobre sua aula!</h2>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label">Qual disciplina?</label>
+                <div class="form-group ">
+                    <label class="control-label" style="font-size: 20px; color: rgb(85, 85, 85)">Qual disciplina?</label>
                     <input class="form-control" name="disciplina" type="text" ng-model="disciplina">
                 </div>
                 <div class="form-group">
-                    <label class="control-label" >Qual conteúdo geral?</label>
+                    <label class="control-label" style="font-size: 20px; color: rgb(85, 85, 85)">Qual conteúdo da aula?</label>
                     <input class="form-control" name="contGeral"  type="text" ng-model="conteudoGeral">    
                 </div>
                 <div class="form-group">
-                    <label class="control-label" >Qual conteúdo específico?</label>
-                    <input class="form-control"  name="contEspec" type="text" ng-model="conteudoEspecifico">    
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Escreva qual objetivo da aula para seu aluno</label>
+                    <label class="control-label" style="font-size: 20px; color: rgb(85, 85, 85)">Quais objetivos e detalhes você quer mostrar para seus aluno?</label>
                     <div>
-                        <textarea class="form-control" rows="3" name="objetivo" type="text" ng-model="objetivoAula"></textarea>
+                        <textarea class="form-control" rows="7" name="objetivo" type="text" ng-model="objetivoAula"></textarea>
                     </div>
                 </div>
-                <div class="text-right" style="margin-top: 30px">
+                <div class="text-right" style="margin-top: 10px; margin-bottom: 10px ">
                     <button class="btn btn-success" ng-disabled="formDadosGerais.$invalid" ng-click="avancarStep1()">Próximo &rarr;</button>
                 </div>
                
@@ -67,26 +68,25 @@
         <div ng-show="step2">
 
             <div class="row text-center" style="margin-bottom: 20px; margin-top: -20px">
-                <h2>Escolha alguns vídeos</h2>
+                <h2 style="color: black">Busque vídeos interessantes para sua aula!</h2>
             </div>
 
             <div class="form-group">
-            <label class="control-label">Encontre videos relacionados a sua aula</label>
             <div class="input-group">
                 <input type="text" class="form-control" ng-model="palavraChave">
-                <span class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="buscarVideos(palavraChave)">Pesquisar</button>
+                <span class="input-group-btn" style="margin-bottom: 20px;">
+                <button style="margin-bottom: 20px;" class="btn btn-default" type="button" ng-click="buscarVideos(palavraChave)">Pesquisar</button>
                 </span>
             </div>
             </div>
 
-             <div ng-show="viewVideos"> 
+             <div ng-show="viewVideos" style="margin-bottom: 30px"> 
         
                 <div class="container testimonial-group" style="background-color: transparent; margin-top:50px;">
                     <div class="row text-center" id="style-3" style="height: 350px">
                         <div class="col-xs-4" ng-repeat="video in listaVideosView">
                             <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" data-toggle="modal" data-target="#modal{{video.id}}">
-                                <p ng-bind="video.titulo.substr(0,20)"></p>
+                                <p ng-bind="video.titulo.substr(0,20)" style="color: rgb(85, 85, 85)"></p>
                                 <img width="310" height="200" src="{{video.imagem}}">
                             </div>
                             <button class="btn btn-primary" ng-click="adicionarVideo(video)">Adicionar</button>
@@ -99,7 +99,7 @@
 
             <div ng-if="viewVideosAdd">
                 <div style="margin-top:50px;">
-                    <label class="control-label">Selecionados</label>
+                    <label class="control-label" style="color: rgb(85, 85, 85); font-size: 20px">Vídeos selecionados:</label>
                 </div>
                 
                 <div class="container testimonial-group" style="background-color: white;">
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-right" style="margin-top: 30px;">
+                <div class="text-right" style="margin-top: 20px; margin-bottom: 20px">
                     <button class="btn btn-success" ng-click="avancarStep2()">Próximo &rarr;</button>
                 </div>
                 
@@ -128,48 +128,45 @@
 
         <!-- Inserir perguntas -->
         <div ng-show="step3">
-            <div class="text-center">
-                <h2>Construa suas perguntas</h2>
+            <div class="text-center" style="margin-top: -20px; margin-bottom: 30px">
+                <h2 style="color: black">Agora é hora de formular umas perguntas para seuas alunos!</h2>
             </div>
             <div class="row">
-                <div style="margin-bottom: 40px">
-                    <h3>Questão {{numQuestao}}</h3>
-                </div>
                <div class="form-group">
-                    <label class="control-label">Qual é a questão?</label>
+                    <label class="control-label" style="color: rgb(85, 85, 85); font-size: 20px">Pergunta {{numQuestao}}</label>
                     <div>
                         <textarea ng-model="estruturaQuestao.question" class="form-control" rows="2" name="objetivo" type="text"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label colorGreen">Resposta correta</label>
+                    <label class="control-label colorGreen" style="font-size: 20px">Resposta correta</label>
                     <div>
                         <textarea ng-model="estruturaQuestao.options[0]" class="form-control" rows="1" type="text"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label colorRed">Resposta incorreta</label>
+                    <label class="control-label colorRed"  style="font-size: 20px">Resposta incorreta</label>
                     <div>
                         <textarea ng-model="estruturaQuestao.options[1]" class="form-control" rows="1" type="text"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label colorRed">Resposta incorreta</label>
+                    <label class="control-label colorRed"  style="font-size: 20px">Resposta incorreta</label>
                     <div>
                         <textarea ng-model="estruturaQuestao.options[2]" class="form-control" rows="1" type="text"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label colorRed">Resposta incorreta</label>
+                    <label class="control-label colorRed"  style="font-size: 20px">Resposta incorreta</label>
                     <div>
                         <textarea ng-model="estruturaQuestao.options[3]" class="form-control" rows="1" type="text"></textarea>
                     </div>
                 </div>
 
-                <div style="margin-top: 30px">
-                    <button class="btn btn-warning" style="margin-right: 15px; width: 200px" ng-click="novaQuestao();">+ Nova questão</button>
+                <div style="margin-top: 30px; margin-bottom: 30px">
                     <button class="btn btn-info" style="width: 200px" data-toggle="modal" data-target="#questionsModal">Perguntas cadastradas</button>
                     <button class="btn btn-success pull-right" style="width: 200px" ng-click="avancarStep3()">Finalizar</button>
+                    <button class="btn btn-warning pull-right" style="margin-right: 15px; width: 200px" ng-click="novaQuestao();">+ Nova pergunta</button> 
                 </div>
             </div>
                 
@@ -177,8 +174,8 @@
         </div>
 
         <div ng-show="step4">
-            <div class="text-center" style="margin-top: 50px">
-                <h2>Aula criada! O Token dela é {{objectAula.token}}</h2>
+            <div class="text-center" style="margin-top: 50px; margin-bottom: 90px">
+                <h2 style="color: black">Aula criada! O Token dela é {{objectAula.token}}</h2>
             </div>
         </div>
 
@@ -222,8 +219,18 @@
             </div>
         </div>
        
-
-
-    
-
 </section>
+
+<style>
+
+body { 
+    background-image: url(../img/fundo_professor.png) ;
+    background-position: center center;
+    background-repeat:  no-repeat;
+    background-attachment: fixed;
+    background-size:  cover;
+    background-color: #999;
+
+
+}
+

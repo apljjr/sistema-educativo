@@ -109,7 +109,7 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
 
         vm.objectAula.disciplina = vm.disciplina;
         vm.objectAula.conteudoGeral = vm.conteudoGeral;
-        vm.objectAula.conteudoEspecifico = vm.conteudoEspecifico;
+        vm.objectAula.conteudoEspecifico = "";
         vm.objectAula.objetivoAula = vm.objetivoAula;
 
         console.log(vm.objectAula);
