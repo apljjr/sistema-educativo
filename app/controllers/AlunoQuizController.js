@@ -3,6 +3,7 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     var vm = $scope;
     var storege = $localStorage;
     $rootScope.navActive = true;
+    vm.user = storege.aluno;
     
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";

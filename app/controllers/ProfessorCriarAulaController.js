@@ -5,6 +5,8 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     var parent = $rootScope;
     var storege = $localStorage;
 
+    vm.user = storege.user;
+
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
     vm.clients = [];

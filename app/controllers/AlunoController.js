@@ -7,6 +7,7 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.aula = storege.aula;
     vm.token = storege.token;
     vm.aluno = storege.aluno;
+    vm.user = storege.aluno;
     console.log(vm.aula);
 
     $rootScope.navActive = true;

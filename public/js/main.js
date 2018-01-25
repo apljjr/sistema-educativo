@@ -86,6 +86,7 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.aula = storege.aula;
     vm.token = storege.token;
     vm.aluno = storege.aluno;
+    vm.user = storege.aluno;
     console.log(vm.aula);
 
     $rootScope.navActive = true;
@@ -122,6 +123,7 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     var vm = $scope;
     var storege = $localStorage;
     $rootScope.navActive = true;
+    vm.user = storege.aluno;
     
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -437,10 +439,13 @@ module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$locat
     
 };
 },{}],8:[function(require,module,exports){
-module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $localStorage){
     
     var vm = $scope;
     var root = $rootScope;
+    var storege = $localStorage;
+
+    vm.user = storege.user;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -488,6 +493,8 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     var vm = $scope;
     var parent = $rootScope;
     var storege = $localStorage;
+
+    vm.user = storege.user;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -750,6 +757,8 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     var root = $rootScope;
     var storege = $localStorage;
 
+    vm.user = storege.user;
+
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
     vm.clients = [];
@@ -901,7 +910,7 @@ angular.module('app').service('clientTestService',['$http','configValue',clientT
 angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
 angular.module('app').controller('MainController',['$scope','$rootScope','$filter','configValue','routeInfo','$location','$timeout','$firebase','$localStorage','$firebaseObject' ,MainController]);
-angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
+angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$localStorage',ProfessorController]);
 angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location','$localStorage','$sce',AlunoController]);
 angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce','$location','$localStorage',AlunoQuizController]);
 angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce','youtubeFactory', '$firebase','$localStorage','$route',ProfessorCriarAulaController]);

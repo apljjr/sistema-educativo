@@ -1,7 +1,10 @@
-module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $localStorage){
     
     var vm = $scope;
     var root = $rootScope;
+    var storege = $localStorage;
+
+    vm.user = storege.user;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
