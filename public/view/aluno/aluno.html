@@ -5,13 +5,18 @@
         <h2 class="text-center colorDefault" style="color: black">
             Aluno, assista os vídeos selecionados pelo seu professor para depois começar o Quiz!
         </h2>
-        {{vm.aula}}
+        
 
         <div class="container testimonial-group" style="background-color: transparent; margin-top:50px;" >
             <div class="row text-center" id="style-3" style="height: 250px">
                 <div class="col-xs-4" ng-repeat="video in aula.videos">
-                    <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" data-toggle="modal" data-target="#aluno{{video.id}}">
+                    <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" 
+                        data-toggle="modal" data-target="#aluno{{video.id}}" ng-click="setarIcon(video.id)">
                         <img src="{{video.imagem}}" width="100%">
+                        <div>
+                            <i ng-if="video.icon === false || video.icon === undefined" class="fa fa-check-circle-o" style="font-size: 35px;" aria-hidden="true"></i>
+                            <i ng-if="video.icon === true" class="fa fa-check-circle-o" style="font-size: 35px; color: green" aria-hidden="true"></i>
+                        </div> 
                     </div>
                 </div>               
             </div>
@@ -38,7 +43,7 @@
         </div>
 
         <div class="text-center" style="margin-top:50px">
-            <button type="button" class="btn btn-success" ng-click="iniciarQuiz()">Começar Quiz</button>
+            <button type="button" class="btn btn-success" ng-click="iniciarQuiz()" ng-disabled="ativaBtnQuiz">Começar Quiz</button>
         </div>
     
     </div>

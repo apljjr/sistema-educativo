@@ -44,20 +44,20 @@
 
                 <div class="form-group ">
                     <label class="control-label" style="font-size: 20px; color: rgb(85, 85, 85)">Qual disciplina?</label>
-                    <input class="form-control" name="disciplina" type="text" ng-model="disciplina">
+                    <input class="form-control" name="disciplina" type="text" ng-model="disciplina" ng-change="verificaDadosPessoais()">
                 </div>
                 <div class="form-group">
                     <label class="control-label" style="font-size: 20px; color: rgb(85, 85, 85)">Qual conteúdo da aula?</label>
-                    <input class="form-control" name="contGeral"  type="text" ng-model="conteudoGeral">    
+                    <input class="form-control" name="contGeral"  type="text" ng-model="conteudoGeral" ng-change="verificaDadosPessoais()">    
                 </div>
                 <div class="form-group">
-                    <label class="control-label" style="font-size: 20px; color: rgb(85, 85, 85)">Quais objetivos e detalhes você quer mostrar para seus alunos?</label>
+                    <label class="control-label" style="font-size: 20px; color: rgb(85, 85, 85)" >Quais objetivos e detalhes você quer mostrar para seus alunos?</label>
                     <div>
-                        <textarea class="form-control" rows="7" name="objetivo" type="text" ng-model="objetivoAula"></textarea>
+                        <textarea class="form-control" rows="7" name="objetivo" type="text" ng-model="objetivoAula" ng-change="verificaDadosPessoais()"></textarea>
                     </div>
                 </div>
                 <div class="text-right" style="margin-top: 10px; margin-bottom: 10px ">
-                    <button class="btn btn-success" ng-disabled="formDadosGerais.$invalid" ng-click="avancarStep1()">Próximo &rarr;</button>
+                    <button class="btn btn-success" ng-disabled="ativaBtnPrimeiroStep" ng-click="avancarStep1()">Próximo &rarr;</button>
                 </div>
                
             </form>
@@ -75,7 +75,7 @@
             <div class="input-group">
                 <input type="text" class="form-control" ng-model="palavraChave">
                 <span class="input-group-btn" style="margin-bottom: 20px;">
-                <button style="margin-bottom: 20px;" class="btn btn-default" type="button" ng-click="buscarVideos(palavraChave)">Pesquisar</button>
+                <button style="margin-bottom: 20px; background-color: #2780e3" class="btn btn-default" type="button" ng-click="buscarVideos(palavraChave)">Pesquisar</button>
                 </span>
             </div>
             </div>
@@ -115,7 +115,7 @@
                     </div>
                 </div>
                 <div class="text-right" style="margin-top: 20px; margin-bottom: 20px">
-                    <button class="btn btn-success" ng-click="avancarStep2()">Próximo &rarr;</button>
+                    <button class="btn btn-success" ng-disabled="ativaBtnSegundoStep" ng-click="avancarStep2()">Próximo &rarr;</button>
                 </div>
                 
 
@@ -135,38 +135,38 @@
                <div class="form-group">
                     <label class="control-label" style="color: rgb(85, 85, 85); font-size: 20px">Pergunta {{numQuestao}}</label>
                     <div>
-                        <textarea ng-model="estruturaQuestao.question" class="form-control" rows="2" name="objetivo" type="text"></textarea>
+                        <textarea ng-model="estruturaQuestao.question" ng-change="verificaQuiz()" class="form-control" rows="2" name="objetivo" type="text"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label colorGreen" style="font-size: 20px">Resposta correta</label>
                     <div>
-                        <textarea ng-model="estruturaQuestao.options[0]" class="form-control" rows="1" type="text"></textarea>
+                        <textarea ng-model="estruturaQuestao.options[0]" ng-change="verificaQuiz()" class="form-control" rows="1" type="text"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label colorRed"  style="font-size: 20px">Resposta incorreta</label>
                     <div>
-                        <textarea ng-model="estruturaQuestao.options[1]" class="form-control" rows="1" type="text"></textarea>
+                        <textarea ng-model="estruturaQuestao.options[1]" ng-change="verificaQuiz()" class="form-control" rows="1" type="text"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label colorRed"  style="font-size: 20px">Resposta incorreta</label>
                     <div>
-                        <textarea ng-model="estruturaQuestao.options[2]" class="form-control" rows="1" type="text"></textarea>
+                        <textarea ng-model="estruturaQuestao.options[2]" ng-change="verificaQuiz()" class="form-control" rows="1" type="text"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label colorRed"  style="font-size: 20px">Resposta incorreta</label>
                     <div>
-                        <textarea ng-model="estruturaQuestao.options[3]" class="form-control" rows="1" type="text"></textarea>
+                        <textarea ng-model="estruturaQuestao.options[3]" ng-change="verificaQuiz()" class="form-control" rows="1" type="text"></textarea>
                     </div>
                 </div>
 
                 <div style="margin-top: 30px; margin-bottom: 30px">
                     <button class="btn btn-info" style="width: 200px" data-toggle="modal" data-target="#questionsModal">Perguntas cadastradas</button>
-                    <button class="btn btn-success pull-right" style="width: 200px" ng-click="avancarStep3()">Finalizar</button>
-                    <button class="btn btn-warning pull-right" style="margin-right: 15px; width: 200px" ng-click="novaQuestao();">+ Nova pergunta</button> 
+                    <button class="btn btn-success pull-right" style="width: 200px" ng-disabled="ativaBtnTerceiroStep" ng-click="avancarStep3()">Finalizar</button>
+                    <button class="btn btn-warning pull-right" style="margin-right: 15px; width: 200px" ng-disabled="ativaBtnTerceiroStep" ng-click="novaQuestao();">+ Nova pergunta</button> 
                 </div>
             </div>
                 

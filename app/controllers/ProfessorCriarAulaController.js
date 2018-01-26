@@ -102,6 +102,16 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         return $sce.trustAsResourceUrl(src);
     };
 
+    vm.ativaBtnPrimeiroStep = true;
+
+    vm.verificaDadosPessoais = function(){
+        if(vm.disciplina.trim() !== "" &&  vm.conteudoGeral.trim() !== "" && vm.objetivoAula.trim() !== ""){
+            vm.ativaBtnPrimeiroStep = false;
+        }else{
+            vm.ativaBtnPrimeiroStep = true;
+        }   
+    };
+
     vm.avancarStep1 = function(){
 
         vm.stepDadosGerais = "complete";
@@ -180,7 +190,12 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
             vm.viewVideosAdd = false;
             vm.viewVideosAdd = true;
         }
- 
+        
+        if(vm.listaAdicionados.length !== 0){
+            vm.ativaBtnSegundoStep = false;
+        }else{
+            vm.ativaBtnSegundoStep = true;
+        }
     };
 
     vm.removerVideo = function(video){
@@ -189,12 +204,33 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
                 vm.listaAdicionados.splice(index, 1);
             }    
         });
+
+        if(vm.listaAdicionados.length !== 0){
+            vm.ativaBtnSegundoStep = false;
+        }else{
+            vm.ativaBtnSegundoStep = true;
+        }
+    };
+
+    vm.ativaBtnTerceiroStep = true;
+
+    vm.verificaQuiz = function(){
+        if( vm.estruturaQuestao.question !== "" 
+            && vm.estruturaQuestao.options[0] !== "" 
+            && vm.estruturaQuestao.options[1] !== "" 
+            && vm.estruturaQuestao.options[2] !== "" 
+            && vm.estruturaQuestao.options[3] !== ""){
+            vm.ativaBtnTerceiroStep = false;
+        }else{
+            vm.ativaBtnTerceiroStep = true;
+        }
     };
 
     vm.novaQuestao = function(){
         vm.numQuestao++;
         vm.arrayPerguntas.push(vm.estruturaQuestao);
         cleanQuestao();
+        vm.verificaQuiz();
     };
 
     vm.redirectCriarAula = function(){

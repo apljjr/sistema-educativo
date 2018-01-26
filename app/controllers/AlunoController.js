@@ -37,4 +37,30 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.logout = function(){
         $location.path('/home');
     };
+
+    vm.setarIcon = function(idVideo){
+        vm.aula.videos.forEach(function(element, index) {
+            if(element.id === idVideo){
+                vm.aula.videos[index].icon = true;
+            }
+        }, this);
+        vm.verificaIconVideos();
+    };
+
+    vm.ativaBtnQuiz = true;
+
+    vm.verificaIconVideos = function(){
+
+        var verificacao = false;
+
+        vm.aula.videos.forEach(function(element) {
+            if(element.icon === false || element.icon === undefined){
+                verificacao = true;
+            }
+        }, this);
+
+        if(!verificacao){
+            vm.ativaBtnQuiz = false;
+        }
+    };
 };
