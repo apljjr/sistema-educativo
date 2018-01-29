@@ -142,6 +142,15 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
             vm.ativaBtnQuiz = false;
         }
     };
+
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
 };
 },{}],6:[function(require,module,exports){
 module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $http, $sce, $location, $localStorage){
@@ -308,6 +317,15 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.logout = function(){
         $location.path('/home');
     };
+
+    vm.removeFrameVisualizador = function(idFrame){
+      // $(idFrame).remove();
+      var id_frame = '#' + idFrame;
+      $(id_frame).each(function(){
+      var el_src = $(this).attr("src");
+      $(this).attr("src",el_src);
+    });
+  };
 
 
     function gerarGrafico(acertos, erros){
@@ -510,6 +528,15 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
             console.log("error logout");
         });
         $location.path('/home');
+    };
+
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
     };
 };
 },{}],9:[function(require,module,exports){
@@ -811,6 +838,15 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         $location.path('/home');
     };
 
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
+
 };
 },{}],10:[function(require,module,exports){
 module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo,$sce, $firebase, $timeout,$firebaseArray, $localStorage){
@@ -885,6 +921,15 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
             console.log("error logout");
         });
         $location.path('/home');
+    };
+
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
     };
 
 };

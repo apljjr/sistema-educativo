@@ -163,6 +163,15 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
         $location.path('/home');
     };
 
+    vm.removeFrameVisualizador = function(idFrame){
+      // $(idFrame).remove();
+      var id_frame = '#' + idFrame;
+      $(id_frame).each(function(){
+      var el_src = $(this).attr("src");
+      $(this).attr("src",el_src);
+    });
+  };
+
 
     function gerarGrafico(acertos, erros){
       // Load the Visualization API and the corechart package.

@@ -296,4 +296,13 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         $location.path('/home');
     };
 
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
+
 };
