@@ -1,17 +1,22 @@
 <header ng-include="'view/nav.html'"></header>
 <section class="container">
-    <div class="jumbotron">
+    <div class="jumbotron fundoTransp-div" style="border-radius: 50px; margin-top: 30px">
 
-        <h2 class="text-center colorDefault" >
+        <h2 class="text-center colorDefault" style="color: black">
             Aluno, assista os vídeos selecionados pelo seu professor para depois começar o Quiz!
         </h2>
-        {{vm.aula}}
+        
 
         <div class="container testimonial-group" style="background-color: transparent; margin-top:50px;" >
             <div class="row text-center" id="style-3" style="height: 250px">
                 <div class="col-xs-4" ng-repeat="video in aula.videos">
-                    <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" data-toggle="modal" data-target="#aluno{{video.id}}">
+                    <div class=" text-center grow1" style="margin-top:0px; margin-bottom: 10px; cursor: pointer;" 
+                        data-toggle="modal" data-target="#aluno{{video.id}}" ng-click="setarIcon(video.id)">
                         <img src="{{video.imagem}}" width="100%">
+                        <div>
+                            <i ng-if="video.icon === false || video.icon === undefined" class="fa fa-check-circle-o" style="font-size: 35px;" aria-hidden="true"></i>
+                            <i ng-if="video.icon === true" class="fa fa-check-circle-o" style="font-size: 35px; color: green" aria-hidden="true"></i>
+                        </div> 
                     </div>
                 </div>               
             </div>
@@ -23,8 +28,8 @@
              <div class="modal fade" id="aluno{{video.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
             <div class="modal-dialog" role="document" style="width: 1043px">
                 <div class="modal-content">
-                <div class="modal-header" ng-init="idFrame = '.id' +  video.id">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="removeFrame(idFrame)"><span aria-hidden="true">&times;</span></button>
+                <div class="modal-header" ng-init="idFrame = 'id' +  video.id">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="removeFrameVisualizador(idFrame)"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">  
                     <iframe id="{{idFrame}}" width="1000" height="600" ng-src="{{trustSrc(video.video)}}" frameborder="0" allowfullscreen></iframe> 
@@ -38,8 +43,22 @@
         </div>
 
         <div class="text-center" style="margin-top:50px">
-            <button type="button" class="btn btn-success" ng-click="iniciarQuiz()">Começar Quiz</button>
+            <button type="button" class="btn btn-success" ng-click="iniciarQuiz()" ng-disabled="ativaBtnQuiz">Começar Quiz</button>
         </div>
     
     </div>
 </section>
+
+<style>
+        
+    body { 
+        background-image: url(../img/fundo_aluno1.png) ;
+        background-position: center center;
+        background-repeat:  no-repeat;
+        background-attachment: fixed;
+        background-size:  cover;
+        background-color: #999;
+
+
+    }
+</style>

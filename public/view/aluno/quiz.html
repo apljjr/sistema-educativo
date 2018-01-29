@@ -1,10 +1,10 @@
 <header ng-include="'view/nav.html'"></header>
 <section class="container" style="width: 1400px">
-    <div class="jumbotron row" ng-show="!viewResultado">
+    <div class="jumbotron row fundoTransp-div" style="border-radius: 50px;" ng-show="!viewResultado">
         <div class="col-sm-12 col-md-10">
             <div class="row">
-            <div class="col-md-2 colorDefault" style="padding: 0px">
-                <h2>Progresso</h2>
+            <div class="col-md-2 colorDefault" style="padding: 0px; margin-left: 10px; margin-top: 7px">
+                <h3 style="color: black">Progresso</h3>
             </div>
             <div class="col-md-9">
                 <div class="progress progress-striped" style="margin-top: 35px; height: 15px">
@@ -15,23 +15,23 @@
 
             <div class="row col-md-12">
                 <div class="colorDefault">
-                    <h3 style="margin-bottom: 10px">Questão {{nQuestao}}</h3>
+                    <h3 style="margin-bottom: 10px; color: black">Questão {{nQuestao}}</h3>
                 </div>
                 <div >
                     <div class="panel colorDefault" style="border:1px solid #5bc03a">
-                        <h3 style="padding-left: 20px; padding-bottom: 5px;" ng-bind="estruturaQuiz.question"></h3> 
+                        <h3 style="padding-left: 20px; padding-bottom: 5px;color: black" ng-bind="estruturaQuiz.question"></h3> 
                     </div>
                     <div class="list-group">
-                    <a href="" ng-click="clickResposta(1)" class="list-group-item " style="margin-bottom: 10px" ng-style="{ background: resp1 ? '#5bc03a' : ''}">
+                    <a href="" ng-click="clickResposta(1)" class="list-group-item " style="margin-bottom: 10px;color: black" ng-style="{ background: resp1 ? '#5bc03a' : ''}">
                         <h4 class="list-group-item-heading" ng-bind="estruturaQuiz.option1"></h4>
                     </a>
-                    <a href="" ng-click="clickResposta(2)" class="list-group-item" style="margin-bottom: 10px" ng-style="{ background: resp2 ? '#5bc03a' : ''}">
+                    <a href="" ng-click="clickResposta(2)" class="list-group-item" style="margin-bottom: 10px;color: black" ng-style="{ background: resp2 ? '#5bc03a' : ''}">
                         <h4 class="list-group-item-heading" ng-bind="estruturaQuiz.option2"></h4>
                     </a>
-                    <a href="" ng-click="clickResposta(3)" class="list-group-item" style="margin-bottom: 10px" ng-style="{ background: resp3 ? '#5bc03a' : ''}">
+                    <a href="" ng-click="clickResposta(3)" class="list-group-item" style="margin-bottom: 10px;color: black" ng-style="{ background: resp3 ? '#5bc03a' : ''}">
                         <h4 class="list-group-item-heading" ng-bind="estruturaQuiz.option3"></h4>
                     </a>
-                    <a href="" ng-click="clickResposta(4)" class="list-group-item" style="margin-bottom: 10px" ng-style="{ background: resp4 ? '#5bc03a' : ''}">
+                    <a href="" ng-click="clickResposta(4)" class="list-group-item" style="margin-bottom: 10px;color: black" ng-style="{ background: resp4 ? '#5bc03a' : ''}">
                         <h4 class="list-group-item-heading" ng-bind="estruturaQuiz.option4"></h4>
                     </a>
                     </div>
@@ -51,10 +51,10 @@
             </div>
         </div>
     </div>
-    <div class="jumbotron row" ng-show="viewResultado">
+    <div class="jumbotron row fundoTransp-div" style="border-radius: 50px;" ng-show="viewResultado">
         <div class="text-center" style="margin-bottom: 500px; z-index: 1000;">
             <div class="text-center" id="chart_div" style="position: absolute;top: 100px;left: 26%;"></div>
-            <h2 class="colorDefault">Parabéns você concluiu o Quiz!!! Veja seus acertos e erros abaixo!!!</h2>
+            <h2 class="colorDefault">Ótimo trabalho. Você finalizou as perguntas, agora confira seu resultado!</h2>
             
         </div>
 
@@ -66,8 +66,8 @@
              <div class="modal fade" id="modal{{video.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
             <div class="modal-dialog" role="document" style="width: 1043px">
                 <div class="modal-content">
-                <div class="modal-header" ng-init="idFrame = '.id' +  video.id">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="removeFrame(idFrame)"><span aria-hidden="true">&times;</span></button>
+                <div class="modal-header" ng-init="idFrame = 'id' +  video.id">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="removeFrameVisualizador(idFrame)"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">  
                     <iframe id="{{idFrame}}" width="1000" height="600" ng-src="{{trustSrc(video.video)}}" frameborder="0" allowfullscreen></iframe> 
@@ -81,3 +81,17 @@
         </div>
     
 </section>
+
+<style>
+        
+    body { 
+        background-image: url(../img/fundo_aluno1.png);
+        background-position: center center;
+        background-repeat:  no-repeat;
+        background-attachment: fixed;
+        background-size:  cover;
+        background-color: #999;
+
+
+    }
+</style>

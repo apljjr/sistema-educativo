@@ -86,6 +86,7 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.aula = storege.aula;
     vm.token = storege.token;
     vm.aluno = storege.aluno;
+    vm.user = storege.aluno;
     console.log(vm.aula);
 
     $rootScope.navActive = true;
@@ -115,6 +116,41 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.logout = function(){
         $location.path('/home');
     };
+
+    vm.setarIcon = function(idVideo){
+        vm.aula.videos.forEach(function(element, index) {
+            if(element.id === idVideo){
+                vm.aula.videos[index].icon = true;
+            }
+        }, this);
+        vm.verificaIconVideos();
+    };
+
+    vm.ativaBtnQuiz = true;
+
+    vm.verificaIconVideos = function(){
+
+        var verificacao = false;
+
+        vm.aula.videos.forEach(function(element) {
+            if(element.icon === false || element.icon === undefined){
+                verificacao = true;
+            }
+        }, this);
+
+        if(!verificacao){
+            vm.ativaBtnQuiz = false;
+        }
+    };
+
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
 };
 },{}],6:[function(require,module,exports){
 module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue,routeInfo,$routeParams, $http, $sce, $location, $localStorage){
@@ -122,6 +158,7 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     var vm = $scope;
     var storege = $localStorage;
     $rootScope.navActive = true;
+    vm.user = storege.aluno;
     
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -281,6 +318,15 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
         $location.path('/home');
     };
 
+    vm.removeFrameVisualizador = function(idFrame){
+      // $(idFrame).remove();
+      var id_frame = '#' + idFrame;
+      $(id_frame).each(function(){
+      var el_src = $(this).attr("src");
+      $(this).attr("src",el_src);
+    });
+  };
+
 
     function gerarGrafico(acertos, erros){
       // Load the Visualization API and the corechart package.
@@ -437,10 +483,13 @@ module.exports = function($scope,$rootScope,$filter,configValue,routeInfo,$locat
     
 };
 },{}],8:[function(require,module,exports){
-module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo){
+module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo, $localStorage){
     
     var vm = $scope;
     var root = $rootScope;
+    var storege = $localStorage;
+
+    vm.user = storege.user;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -480,6 +529,15 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         });
         $location.path('/home');
     };
+
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
 };
 },{}],9:[function(require,module,exports){
 module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,
@@ -488,6 +546,8 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     var vm = $scope;
     var parent = $rootScope;
     var storege = $localStorage;
+
+    vm.user = storege.user;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -584,6 +644,16 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         return $sce.trustAsResourceUrl(src);
     };
 
+    vm.ativaBtnPrimeiroStep = true;
+
+    vm.verificaDadosPessoais = function(){
+        if(vm.disciplina.trim() !== "" &&  vm.conteudoGeral.trim() !== "" && vm.objetivoAula.trim() !== ""){
+            vm.ativaBtnPrimeiroStep = false;
+        }else{
+            vm.ativaBtnPrimeiroStep = true;
+        }   
+    };
+
     vm.avancarStep1 = function(){
 
         vm.stepDadosGerais = "complete";
@@ -593,7 +663,7 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
 
         vm.objectAula.disciplina = vm.disciplina;
         vm.objectAula.conteudoGeral = vm.conteudoGeral;
-        vm.objectAula.conteudoEspecifico = vm.conteudoEspecifico;
+        vm.objectAula.conteudoEspecifico = "";
         vm.objectAula.objetivoAula = vm.objetivoAula;
 
         console.log(vm.objectAula);
@@ -662,7 +732,12 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
             vm.viewVideosAdd = false;
             vm.viewVideosAdd = true;
         }
- 
+        
+        if(vm.listaAdicionados.length !== 0){
+            vm.ativaBtnSegundoStep = false;
+        }else{
+            vm.ativaBtnSegundoStep = true;
+        }
     };
 
     vm.removerVideo = function(video){
@@ -671,12 +746,33 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
                 vm.listaAdicionados.splice(index, 1);
             }    
         });
+
+        if(vm.listaAdicionados.length !== 0){
+            vm.ativaBtnSegundoStep = false;
+        }else{
+            vm.ativaBtnSegundoStep = true;
+        }
+    };
+
+    vm.ativaBtnTerceiroStep = true;
+
+    vm.verificaQuiz = function(){
+        if( vm.estruturaQuestao.question !== "" 
+            && vm.estruturaQuestao.options[0] !== "" 
+            && vm.estruturaQuestao.options[1] !== "" 
+            && vm.estruturaQuestao.options[2] !== "" 
+            && vm.estruturaQuestao.options[3] !== ""){
+            vm.ativaBtnTerceiroStep = false;
+        }else{
+            vm.ativaBtnTerceiroStep = true;
+        }
     };
 
     vm.novaQuestao = function(){
         vm.numQuestao++;
         vm.arrayPerguntas.push(vm.estruturaQuestao);
         cleanQuestao();
+        vm.verificaQuiz();
     };
 
     vm.redirectCriarAula = function(){
@@ -742,6 +838,15 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
         $location.path('/home');
     };
 
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
+    };
+
 };
 },{}],10:[function(require,module,exports){
 module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPIService,clientTestService,configValue,bonusGenerator,routeInfo,$sce, $firebase, $timeout,$firebaseArray, $localStorage){
@@ -749,6 +854,8 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
     var vm = $scope;
     var root = $rootScope;
     var storege = $localStorage;
+
+    vm.user = storege.user;
 
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -814,6 +921,15 @@ module.exports = function($scope,$rootScope,$location,$http,$filter,clientAPISer
             console.log("error logout");
         });
         $location.path('/home');
+    };
+
+    vm.removeFrameVisualizador = function(idFrame){
+        // $(idFrame).remove();
+        var id_frame = '#' + idFrame;
+        $(id_frame).each(function(){
+        var el_src = $(this).attr("src");
+        $(this).attr("src",el_src);
+      });
     };
 
 };
@@ -901,7 +1017,7 @@ angular.module('app').service('clientTestService',['$http','configValue',clientT
 angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
 angular.module('app').controller('MainController',['$scope','$rootScope','$filter','configValue','routeInfo','$location','$timeout','$firebase','$localStorage','$firebaseObject' ,MainController]);
-angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
+angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$localStorage',ProfessorController]);
 angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location','$localStorage','$sce',AlunoController]);
 angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce','$location','$localStorage',AlunoQuizController]);
 angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce','youtubeFactory', '$firebase','$localStorage','$route',ProfessorCriarAulaController]);

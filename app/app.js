@@ -32,7 +32,7 @@ angular.module('app').service('clientTestService',['$http','configValue',clientT
 angular.module('app').directive('maskTel',[maskTel]);
 angular.module('app').directive('alertMsg',[alertMsg]);
 angular.module('app').controller('MainController',['$scope','$rootScope','$filter','configValue','routeInfo','$location','$timeout','$firebase','$localStorage','$firebaseObject' ,MainController]);
-angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo',ProfessorController]);
+angular.module('app').controller('ProfessorController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$localStorage',ProfessorController]);
 angular.module('app').controller('AlunoController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$location','$localStorage','$sce',AlunoController]);
 angular.module('app').controller('AlunoQuizController',['$scope','$rootScope','$filter','clientAPIService','configValue','routeInfo','$routeParams','$http', '$sce','$location','$localStorage',AlunoQuizController]);
 angular.module('app').controller('ProfessorCriarAulaController',['$scope','$rootScope','$location','$http','$filter','clientAPIService','clientTestService','configValue','bonusGenerator','routeInfo','$sce','youtubeFactory', '$firebase','$localStorage','$route',ProfessorCriarAulaController]);

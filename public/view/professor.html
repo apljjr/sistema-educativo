@@ -1,14 +1,14 @@
 <header ng-include="'view/nav.html'"></header>
 <section class="container">
-    <div class="jumbotron">
+    <div class="jumbotron fundoTransp-div" style="border-radius: 50px;">
     <div class="row text-center">
-        <h2 style="margin-top:-20px">
+        <h2 style="margin-top:20px; color: #424242" >
             Olá professor, assista um breve vídeo tutorial para aprender a utilizar o sistema e 
             aproveitar ao máximo todas as funcionalidades.
         </h2>
-        <div class=" text-center" style="margin-top:50px; margin-bottom: 10px">
+        <div class=" text-center" style="margin-top:70px; margin-bottom: 10px">
             <i class="fa fa-play-circle grow borderPlay" aria-hidden="true" data-toggle="modal" data-target="#videoModal"
-                style="font-size:150px; position: absolute;  left:520px; top:250px; color:#f90050;"></i>
+                style="font-size:150px; position: absolute;  left:520px; top:300px; color:#f90050;"></i>
             <img src="../img/ensino-hibrido.png" width="60%">
         </div>
 
@@ -23,7 +23,7 @@
             </div>
             <div class="modal-body">
                 
-                <div class="embed-responsive embed-responsive-16by9" style="background-color:gray;">
+                <div class="embed-responsive embed-responsive-16by9" style="background-color:rgb(150, 61, 61);">
                     <iframe class="yvideoInicio" src="https://www.youtube.com/embed/E8NlU_07XRI?disablekb=1"></iframe>
                 </div>
                 
@@ -41,6 +41,15 @@
 
 </section>
 
-<script>
-    
-</script>
+<style>
+    body { 
+        background-image: url(../img/fundo_professor.png) ;
+        background-position: center center;
+        background-repeat:  no-repeat;
+        background-attachment: fixed;
+        background-size:  cover;
+        background-color: #999;
+
+
+    }
+</style>

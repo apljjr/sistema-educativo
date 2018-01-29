@@ -3,6 +3,7 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     var vm = $scope;
     var storege = $localStorage;
     $rootScope.navActive = true;
+    vm.user = storege.aluno;
     
     vm.name = $filter("uppercase")(configValue.appName);
     vm.msg = "";
@@ -161,6 +162,15 @@ module.exports = function($scope,$rootScope,$filter,clientAPIService,configValue
     vm.logout = function(){
         $location.path('/home');
     };
+
+    vm.removeFrameVisualizador = function(idFrame){
+      // $(idFrame).remove();
+      var id_frame = '#' + idFrame;
+      $(id_frame).each(function(){
+      var el_src = $(this).attr("src");
+      $(this).attr("src",el_src);
+    });
+  };
 
 
     function gerarGrafico(acertos, erros){

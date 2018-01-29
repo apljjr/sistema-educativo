@@ -11,13 +11,45 @@
     </div>
     
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" style="padding-left: 30px">
         <li ng-if="activeNavProfessor" class="{{classActiveCriarAula}}"><a href="" ng-click="redirectCriarAula()">Criar Aula</a></li>
         <li ng-if="activeNavProfessor" class="{{classActiveVisualizarAula}}"><a href="" ng-click="redirectVisualizarAulas()">Visualizar Aulas</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li ng-if="activeNavProfessor || activeNavAluno"><a href="" ng-click="logout()">Sair</a></li>
+        <li ng-if="activeNavProfessor || activeNavAluno">
+          <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-user-circle"  style="font-size: 20px;" aria-hidden="true"></i>
+                <span style="font-size: 20px; padding-left: 5px">{{user}}</span> 
+                <i class="fa fa-caret-down" style="font-size: 20px; padding-left: 5px" aria-hidden="true"></i>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <li ng-if="activeNavProfessor"><a >Perfil</a></li>
+                <li ng-if="activeNavProfessor" role="separator" class="divider"></li>
+                <li><a href="" ng-click="logout()">Sair do Eduq</a></li>
+              </ul>
+            </div>
+        </li>
+        <!-- <li ng-if="activeNavProfessor || activeNavAluno"><a href="" ng-click="logout()">Sair</a></li> -->
       </ul>
     </div>
   </div>
 </nav>
+
+<style>
+
+.btn-default {
+    color: #ffffff;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.dropdown-menu{
+  font-size: 20px;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus{
+  background-color: rgb(133, 133, 133);
+}
+</style>
+
